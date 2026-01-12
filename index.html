@@ -57,13 +57,31 @@
         @keyframes ticker-forward { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         @keyframes ticker-reverse { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
         .ticker-item { display: inline-block; padding: 0 30px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; }
+
+        /* BARRA DE TOGGLE PARA FILTROS */
+        .filter-toggle {
+            width: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
         .filter-panel {
             width: 95%; max-width: none; margin: 10px auto;
             display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center;
             background: rgba(255, 255, 0.05); padding: 12px;
             border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
         }
+        .filter-panel.hidden { display: none; }
+
         .filter-group { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
         .filter-label { font-size: 0.7rem; font-weight: 900; color: #64748b; margin-right: 5px; }
       
@@ -195,6 +213,12 @@
             <div class="ticker" id="tick-info"></div>
         </div>
     </div>
+
+    <!-- BARRA DE TOGGLE PARA MOSTRAR/OCULTAR FILTROS -->
+    <div class="filter-toggle" onclick="toggleFilters()">
+        <i class="fas fa-filter"></i> <span>FILTROS</span> <i class="fas fa-chevron-down" id="filter-arrow"></i>
+    </div>
+
     <div class="filter-panel">
         <div class="filter-group">
             <span class="filter-label">RUBRO:</span>
@@ -261,7 +285,7 @@
         let CELL_SIZE;
         let tiles = [];
         let activeFilters = { cat: null, discount: null };
-        // MATRIZ COMPLETA CON MÁS LOCALES
+
         const tilesData = [
             // CARNICERÍA
             { name: "Carnicería Julián", cat: "CARNICERIA", discount: 45, img: "https://images.unsplash.com/photo-1589984667390-09eb86d8b8f5?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=9+de+Julio+1185,+Campana" },
@@ -301,17 +325,18 @@
             { name: "Farmacia del Centro", cat: "MEDICINA", discount: 15, img: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=farmacia+centro+campana" },
             { name: "Centro Médico Norte", cat: "MEDICINA", discount: 45, img: "https://images.unsplash.com/photo-1519494026892-80e512f5f3d8?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=centro+medico+norte+campana" },
             { name: "Farmacia de Turno", cat: "MEDICINA", discount: 20, img: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=farmacia+turno+campana" },
-            // BELLEZA (NUEVO)
+            // BELLEZA
             { name: "Pelquería Estilo", cat: "BELLEZA", discount: 40, img: "https://images.unsplash.com/photo-1580616295015-9f4a404bde9e?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=peluqueria+campana" },
             { name: "Estética Glam", cat: "BELLEZA", discount: 50, img: "https://images.unsplash.com/photo-1522338242992-e1a5497595f9?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=estetica+campana" },
             { name: "Manicuria & Belleza", cat: "BELLEZA", discount: 25, img: "https://images.unsplash.com/photo-1597220954831-7d90be692ac1?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=manicuria+campana" },
             { name: "Salón de Belleza Luna", cat: "BELLEZA", discount: 35, img: "https://images.unsplash.com/photo-1512290505090-f90d9134154b?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=salon+belleza+campana" },
-            // PETSHOP (NUEVO)
+            // PETSHOP
             { name: "Pet Shop Amigos", cat: "PETSHOP", discount: 30, img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=pet+shop+campana" },
             { name: "Veterinaria Campana", cat: "PETSHOP", discount: 45, img: "https://images.unsplash.com/photo-1560806887-1f3e4dc4d8d7?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=veterinaria+campana" },
             { name: "Mascotas Feliz", cat: "PETSHOP", discount: 20, img: "https://images.unsplash.com/photo-1552673597-e3e0b5b7f9d0?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=mascotas+campana" },
             { name: "Pet Center", cat: "PETSHOP", discount: 35, img: "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=pet+shop+campana" },
         ];
+
         const audio = new (window.AudioContext || window.webkitAudioContext)();
         function playSfx(freq, type='sine', dur=0.1) {
             const o = audio.createOscillator(); const g = audio.createGain();
@@ -320,6 +345,19 @@
             o.connect(g); g.connect(audio.destination);
             o.start(); o.stop(audio.currentTime + dur);
         }
+
+        function toggleFilters() {
+            playSfx(450);
+            const panel = document.querySelector('.filter-panel');
+            panel.classList.toggle('hidden');
+            const arrow = document.getElementById('filter-arrow');
+            if (panel.classList.contains('hidden')) {
+                arrow.classList.replace('fa-chevron-down', 'fa-chevron-up');
+            } else {
+                arrow.classList.replace('fa-chevron-up', 'fa-chevron-down');
+            }
+        }
+
         let dataIndex = 0;
         function initBoard() {
             tiles = [];
@@ -349,7 +387,8 @@
             }
             render();
             fillTickers();
-            // ARMADO ULTRARRÁPIDO
+
+            // Armado ultrarrápido inicial
             let burstMoves = 0;
             const burst = setInterval(() => {
                 for(let i = 0; i < 30; i++) {
@@ -367,6 +406,7 @@
                 }
             }, 100);
         }
+
         function render() {
             const board = document.getElementById('puzzle-board');
             const screenW = window.innerWidth - 20;
@@ -405,6 +445,7 @@
                 "max-glare": 0.4,
             });
         }
+
         function tryMove(t, el) {
             const dirs = [{x:0,y:-1},{x:0,y:1},{x:-1,y:0},{x:1,y:0}];
             dirs.sort(() => Math.random() - 0.5);
@@ -425,6 +466,8 @@
             }
             return false;
         }
+
+        // Movimiento aleatorio periódico
         setInterval(() => {
             const moves = Math.floor(Math.random() * 6) + 3;
             for(let i = 0; i < moves; i++) {
@@ -437,6 +480,7 @@
                 }
             }
         }, 1800);
+
         function emojiRain() {
             const emojis = ['🎉','🔥','💰','⭐','🤑','🎊','✨','💸'];
             for(let i = 0; i < 60; i++) {
@@ -453,6 +497,7 @@
                 setTimeout(() => el.remove(), 6000);
             }
         }
+
         function filter(type, val, btn) {
             playSfx(400);
             if(activeFilters[type] === val) {
@@ -467,6 +512,7 @@
             }
             updateVisibility();
         }
+
         function resetFilter(type, btn) {
             playSfx(400);
             activeFilters[type] = null;
@@ -474,6 +520,7 @@
             btn.classList.add('active');
             updateVisibility();
         }
+
         function updateVisibility() {
             tiles.forEach(t => {
                 const el = document.getElementById(t.id);
@@ -482,12 +529,14 @@
                 el.classList.toggle('filtered-out', !(matchCat && matchDiscount));
             });
         }
+
         function resetAll() {
             playSfx(500);
             activeFilters = {cat:null, discount:null};
             document.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
             initBoard();
         }
+
         function openModal(t) {
             document.getElementById('m-name').innerText = t.name;
             document.getElementById('m-img').src = t.img;
@@ -500,9 +549,11 @@
            
             document.getElementById('modal-shop').classList.add('active');
         }
+
         function closeModal() { document.getElementById('modal-shop').classList.remove('active'); }
         function openPrivacyModal() { document.getElementById('modal-privacy').classList.add('active'); }
         function closePrivacyModal() { document.getElementById('modal-privacy').classList.remove('active'); }
+
         function fillTickers() {
             const avisoText = "📄 EXTRAVÍO DE DOCUMENTACIÓN • 🐕 EXTRAVÍO DE MASCOTAS • ¡PUBLICA O BUSCA EN NUESTRAS REDES SOCIALES! • ";
             document.getElementById('tick-aviso').innerHTML = `<div class="ticker-item">${avisoText}</div><div class="ticker-item">${avisoText}</div>`;
@@ -512,6 +563,7 @@
             document.getElementById('tick-hot').innerHTML = `<div class="ticker-item">${hotText || 'Sin promos hot'} • ${hotText || ''}</div>`;
             document.getElementById('tick-info').innerHTML = `<div class="ticker-item">${infoText} ${infoText}</div>`;
         }
+
         function createRipple(e, el) {
             const ripple = document.createElement('span');
             ripple.className = 'ripple';
@@ -521,13 +573,16 @@
             el.appendChild(ripple);
             setTimeout(() => ripple.remove(), 600);
         }
+
         setInterval(() => {
             document.getElementById('clock').innerText = new Date().toLocaleTimeString();
         }, 1000);
+
         window.onresize = render;
         initBoard();
     </script>
 </body>
 </html>
+
 
 
