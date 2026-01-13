@@ -25,8 +25,8 @@
             color: var(--text-light);
             min-height: 100vh;
             display: flex; flex-direction: column;
-            overflow: hidden;
             background-color: #000;
+            overflow-y: auto;
         }
         .animated-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
@@ -51,14 +51,14 @@
         .ticker-aviso { background: var(--yellow); color: #000; height: 32px; font-weight: bold; border-bottom: 2px solid rgba(0,0,0,0.3); }
         .ticker-aviso .ticker { animation-name: ticker-forward; }
       
-        .ticker { display: inline-block; animation-duration: 40s; animation-iteration-count: infinite; animation-timing-function: linear; }
-        .ticker-hot .ticker { animation-name: ticker-forward; }
-        .ticker-info .ticker { animation-name: ticker-reverse; }
+        .ticker { display: inline-block; animation-iteration-count: infinite; animation-timing-function: linear; }
+        .ticker-hot .ticker { animation-name: ticker-forward; animation-duration: 80s; }
+        .ticker-info .ticker { animation-name: ticker-reverse; animation-duration: 60s; }
+        .ticker-aviso .ticker { animation-duration: 70s; }
         @keyframes ticker-forward { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         @keyframes ticker-reverse { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
-        .ticker-item { display: inline-block; padding: 0 30px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; }
+        .ticker-item { display: inline-block; padding: 0 40px; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; }
 
-        /* BARRA DE TOGGLE PARA FILTROS */
         .filter-toggle {
             width: 100%;
             background: rgba(0,0,0,0.6);
@@ -114,9 +114,9 @@
             flex: 1;
             display: flex;
             justify-content: center;
-            align-items: center;
-            padding: 5px;
-            overflow: hidden;
+            align-items: flex-start;
+            padding: 20px 10px;
+            overflow-y: auto;
         }
         #puzzle-board { position: relative; }
         .tile {
@@ -127,7 +127,6 @@
         }
         .tile.filtered-out { opacity: 0.08; filter: grayscale(1); pointer-events: none; }
 
-        /* COLORES DE FONDO SEGÚN TIPO DE DESCUENTO */
         .tier-high { 
             background: rgba(239, 68, 68, 0.15); 
             animation: blink-hot 1.5s infinite; 
@@ -145,7 +144,6 @@
             border-width: 2px; 
         }
 
-        /* EFECTO AGRANDADO + COLOR MÁS INTENSO */
         .tile.enlarged {
             transform: scale(1.7);
             z-index: 50;
@@ -188,7 +186,7 @@
             line-height: 1.2;
         }
         .tile-price {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: var(--accent);
             font-weight: bold;
             margin-top: 6px;
@@ -224,14 +222,64 @@
             padding: 15px;
             text-align: center;
             background: rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
         }
-        .social-panel a {
+        .social-links {
+            display: flex;
+            gap: 30px;
+        }
+        .social-links a {
             color: white;
-            font-size: 2rem;
-            margin: 0 15px;
+            font-size: 2.2rem;
             transition: transform 0.3s;
         }
-        .social-panel a:hover { transform: scale(1.2); }
+        .social-links a:hover { transform: scale(1.3); }
+        .footer-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        .btn-footer {
+            background: #334155;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .btn-footer:hover { transform: scale(1.1); background: var(--primary); }
+        .btn-publicita {
+            background: #25D366 !important;
+            font-size: 1rem;
+            padding: 12px 25px;
+        }
+
+        /* FORMULARIO PUBLICIDAD */
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: white;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(37,99,235,0.3);
+        }
     </style>
 </head>
 <body>
@@ -283,13 +331,19 @@
         <div id="puzzle-board"></div>
     </div>
     <div class="social-panel">
-        <div>
+        <div class="social-links">
             <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
             <a href="https://www.tiktok.com/" target="_blank"><i class="fab fa-tiktok"></i></a>
         </div>
-        <button class="btn-reset" style="margin-top:10px; width:auto; padding:8px 20px;" onclick="openPrivacyModal()">Políticas de Privacidad</button>
+        <div class="footer-buttons">
+            <a href="#" class="btn-footer" onclick="openPrivacyModal()">Políticas de Privacidad</a>
+            <button class="btn-footer btn-publicita" onclick="openPublicitaModal()">
+                <i class="fab fa-whatsapp"></i> PUBLICITA YA TU LOCAL
+            </button>
+        </div>
     </div>
-    <!-- MODAL DETALLE -->
+
+    <!-- MODAL DETALLE LOCAL -->
     <div class="modal" id="modal-shop">
         <div class="modal-content">
             <img id="m-img" class="modal-img" src="">
@@ -311,6 +365,7 @@
             </div>
         </div>
     </div>
+
     <!-- MODAL PRIVACIDAD -->
     <div class="modal" id="modal-privacy">
         <div class="modal-content">
@@ -351,6 +406,26 @@
             </div>
         </div>
     </div>
+
+    <!-- MODAL FORMULARIO PUBLICIDAD -->
+    <div class="modal" id="modal-publicita">
+        <div class="modal-content">
+            <div style="padding:20px;">
+                <h2 style="color:var(--accent); text-align:center;">Publicita tu Local</h2>
+                <p style="color:#ccc; text-align:center; margin-bottom:20px;">Completa los datos y te contactaremos</p>
+                <form id="form-publicita">
+                    <input type="text" id="pub-nombre" class="form-input" placeholder="Nombre del Local" required>
+                    <input type="email" id="pub-email" class="form-input" placeholder="E-mail" required>
+                    <input type="text" id="pub-ubicacion" class="form-input" placeholder="Ubicación" required>
+                    <button type="submit" style="width:100%; background:#25D366; color:white; border:none; padding:15px; border-radius:10px; margin-top:20px; font-weight:bold;">
+                        Enviar por WhatsApp
+                    </button>
+                </form>
+                <button onclick="closePublicitaModal()" style="width:100%; background:none; color:#888; border:1px solid #444; padding:15px; border-radius:10px; margin-top:10px; font-weight:bold;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const COLS = 14, ROWS = 14, GAP = 4;
         let CELL_SIZE;
@@ -368,7 +443,7 @@
             { name: "Kiosco del Sol", cat: "KIOSCO", discount: 35, img: "https://images.unsplash.com/photo-1620394780256-9fdfc2f8c5d3?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=San+Martín+999,+Campana", web: "https://www.instagram.com/kioscodelsol" },
             { name: "Kiosco Las Mellis", cat: "KIOSCO", discount: 10, img: "https://images.unsplash.com/photo-1604719312566-2a3d3e3e68e9?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=Av.+Francisco+Lavezzari+3,+Campana", web: "https://www.instagram.com/kioscolasmellis" },
             { name: "Electrónica Proton", cat: "TECH", discount: 50, img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=Av.+Ing.+Agustín+Rocca+290,+Campana", web: "https://www.instagram.com/electronicaproton" },
-            { name: "NEXO-Art Construimos tu Sitio Web", cat: "TECH", discount: 10, img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400", wa: "https://wa.me/543489686939", map: "https://www.google.com/maps/search/?api=1&query=Av.+Int.+Jorge+Ruben+Varela+524,+Campana", web: "https://nexoar-art.github.io/NEXO-art/" },
+            { name: "Megastore", cat: "TECH", discount: 30, img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=Av.+Int.+Jorge+Ruben+Varela+524,+Campana", web: "https://www.instagram.com/megastore_campana" },
             { name: "Dr. Cell Campana", cat: "TECH", discount: 40, img: "https://images.unsplash.com/photo-1588508065123-6f0d6a5c3f9f?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=Av.+Int.+Jorge+Ruben+Varela+320,+Campana", web: "https://www.instagram.com/drcellcampana" },
             { name: "Campanitas Mora", cat: "MODA", discount: 35, img: "https://images.unsplash.com/photo-1445205170230-053b830c6050?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=Barnetche+2119,+Campana", web: "https://www.instagram.com/campanitasmora" },
             { name: "Lola Mona Indumentaria", cat: "MODA", discount: 45, img: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=Av.+Mitre+1172,+Campana", web: "https://www.instagram.com/lolamonaindumentaria" },
@@ -377,8 +452,8 @@
             { name: "La Catedral", cat: "FOOD", discount: 30, img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=Av.+Int.+Jorge+Ruben+Varela+370,+Campana", web: "https://www.instagram.com/lacatedralcampana" },
             { name: "Emblema", cat: "FOOD", discount: 40, img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=Blvd.+Sarmiento+101,+Campana", web: "https://www.instagram.com/emblemacampana" },
             { name: "Kentucky", cat: "FOOD", discount: 15, img: "https://images.unsplash.com/photo-1571091655789-84b2c56ea2a3?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=San+Martín+402,+Campana", web: "https://www.instagram.com/kentuckycampana" },
-            { name: "Anik Campana", cat: "FOOD", discount: 50, img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400", wa: "https://wa.me/54348900000", map: "https://www.google.com/maps/search/?api=1&query=9+de+Julio+749,+Campana", web: "https://www.instagram.com/anikcampana" },
-            { name: "TODO CASERO", cat: "FOOD", discount: 25, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400", wa: "https://wa.me/543489358998", map: "https://www.google.com/maps/search/?api=1&query=RN9+Km.+72.5,+Campana", web: "https://nexoar-art.github.io/ROTISERIA-MALVINAS/" },
+            { name: "Anik Campana", cat: "FOOD", discount: 50, img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=9+de+Julio+749,+Campana", web: "https://www.instagram.com/anikcampana" },
+            { name: "McDonald's Campana", cat: "FOOD", discount: 25, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=RN9+Km.+72.5,+Campana", web: "https://www.instagram.com/mcdonalds_arg" },
             { name: "Taller Mecánico Campana", cat: "TALLERMECANICO", discount: 40, img: "https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=taller+mecanico+campana", web: "https://www.instagram.com/tallermecanicocampana" },
             { name: "Auto Service Rodríguez", cat: "TALLERMECANICO", discount: 30, img: "https://images.unsplash.com/photo-1544636331-8985c7dbe9e5?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=auto+service+rodriguez+campana", web: "https://www.instagram.com/autoservicerodriguez" },
             { name: "Mecánica Rápida", cat: "TALLERMECANICO", discount: 50, img: "https://images.unsplash.com/photo-1581092160607-36e2b8f0b4d4?w=400", wa: "https://wa.me/543489000000", map: "https://www.google.com/maps/search/?api=1&query=mecanica+rapida+campana", web: "https://www.instagram.com/mecanicarapida" },
@@ -419,6 +494,27 @@
                 arrow.classList.replace('fa-chevron-up', 'fa-chevron-down');
             }
         }
+
+        function openPublicitaModal() {
+            document.getElementById('modal-publicita').classList.add('active');
+        }
+        function closePublicitaModal() {
+            document.getElementById('modal-publicita').classList.remove('active');
+            document.getElementById('form-publicita').reset();
+        }
+
+        document.getElementById('form-publicita').onsubmit = function(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('pub-nombre').value.trim();
+            const email = document.getElementById('pub-email').value.trim();
+            const ubicacion = document.getElementById('pub-ubicacion').value.trim();
+
+            if (nombre && email && ubicacion) {
+                const mensaje = encodeURIComponent(`Quiero publicar mi local en Mercado de Locales:\nNombre del Local: ${nombre}\nE-mail: ${email}\nUbicación: ${ubicacion}`);
+                window.open(`https://wa.me/543489000000?text=${mensaje}`, '_blank');
+                closePublicitaModal();
+            }
+        };
 
         let dataIndex = 0;
         function initBoard() {
@@ -654,6 +750,7 @@
     </script>
 </body>
 </html>
+
 
 
 
