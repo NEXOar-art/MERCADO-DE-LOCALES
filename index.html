@@ -6,7 +6,7 @@
     <title>MERCADO DE LOCALES | Campana</title>
     <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+  
     <style>
         :root {
             /* Paleta */
@@ -15,19 +15,16 @@
             --bg-body: #f5f5f5;
             --bg-card: #ffffff;
             --text-primary: #333333;
-            
+          
             /* Semáforo Descuentos */
-            --color-low: #00a650;   /* Verde <20% */
-            --color-mid: #ffab00;   /* Amarillo 20-40% */
-            --color-hot: #ff3b3b;   /* Rojo >40% */
-
+            --color-low: #00a650; /* Verde <20% */
+            --color-mid: #ffab00; /* Amarillo 20-40% */
+            --color-hot: #ff3b3b; /* Rojo >40% */
             --tile-radius: 4px;
             --shadow-soft: 0 2px 10px rgba(0,0,0,0.08);
             --shadow-hover: 0 25px 80px rgba(0,0,0,0.6);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
         body {
             font-family: 'Proxima Nova', 'Roboto', sans-serif;
             background-color: var(--bg-body);
@@ -37,7 +34,6 @@
             flex-direction: column;
             overflow-x: hidden;
         }
-
         /* HEADER */
         header {
             background-color: var(--meli-yellow);
@@ -45,32 +41,41 @@
             position: sticky; top: 0; z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-
         .header-content {
             width: 100%; margin: 0 auto;
             display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
         }
-
-        .logo-area { 
-            font-weight: 900; font-size: 1.1rem; color: var(--meli-blue); letter-spacing: -0.5px; line-height: 1; 
-            margin-right: 10px;
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            color: var(--meli-blue);
+            letter-spacing: -0.5px;
+            line-height: 1;
         }
-        
+        .logo-img {
+            height: 50px;
+        }
+        .logo-text {
+            line-height: 1;
+        }
+      
         /* SEGMENTACIÓN Y LEYENDA */
         .segmentation-area {
             display: flex; flex-direction: column; justify-content: center; font-size: 0.75rem;
-            margin-right: auto; /* Empuja el buscador a la derecha */
+            margin-right: auto;
         }
-        
+      
         .location-badge {
             display: flex; align-items: center; gap: 4px; font-weight: 700; color: #333; cursor: pointer;
         }
-        
+      
         .discount-legend {
             display: flex; gap: 8px; font-size: 0.7rem; color: #555; margin-top: 2px;
         }
         .legend-item { display: flex; align-items: center; gap: 3px; font-weight: 600; }
-
         /* BUSCADOR */
         .search-container {
             flex: 1; background: white; border-radius: 4px; min-width: 200px;
@@ -78,24 +83,22 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
         #search-input { border: none; width: 100%; outline: none; font-size: 0.9rem; }
-
-        /* TOGGLE VIEW */
-        .view-toggle-btn {
+        /* TOGGLE VIEW & IG */
+        .view-toggle-btn, .ig-btn {
             background: white; border: none; width: 36px; height: 36px; border-radius: 50%;
             color: var(--meli-blue); font-size: 1rem; cursor: pointer;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center;
+            margin-left: 8px;
         }
-
+        .ig-btn { color: #E4405F; font-size: 1.3rem; }
         /* TICKERS */
         .tickers-stack { background: white; border-bottom: 1px solid #ddd; font-size: 0.75rem; }
         .ticker-wrap { width: 100%; overflow: hidden; white-space: nowrap; height: 24px; display: flex; align-items: center; }
         .ticker { display: inline-block; animation: ticker-scroll 45s linear infinite; padding-left: 100%; }
         .ticker-item { display: inline-block; padding: 0 2rem; font-weight: 600; text-transform: uppercase; }
         @keyframes ticker-scroll { 100% { transform: translateX(-100%); } }
-
         .t-aviso { background: var(--meli-blue); color: white; }
         .t-hot { background: #ffebeb; color: var(--color-hot); }
-
         /* FILTROS */
         .filter-bar { overflow-x: auto; white-space: nowrap; padding: 8px 10px; background: white; display: flex; gap: 6px; align-items: center; }
         .btn-filter {
@@ -103,21 +106,18 @@
             font-size: 0.8rem; font-weight: 600; color: #555; cursor: pointer; transition: 0.3s;
         }
         .btn-filter.active { background: var(--meli-blue); color: white; }
-        
+      
         /* Botones de colores con porcentajes explícitos */
         .btn-filter.green-btn.active { background: var(--color-low); color: white; }
         .btn-filter.yellow-btn.active { background: var(--color-mid); color: white; }
         .btn-filter.red-btn.active { background: var(--color-hot); color: white; }
-
         .separator { width:1px; height: 20px; background:#ddd; margin:0 5px; }
-
         /* CONTAINER 14x14 */
-        .board-container { 
-            flex: 1; position: relative; margin: 15px auto; 
-            width: 98%; max-width: 1800px; padding-bottom: 80px; 
+        .board-container {
+            flex: 1; position: relative; margin: 15px auto;
+            width: 98%; max-width: 1800px; padding-bottom: 80px;
         }
         #puzzle-board { position: relative; width: 100%; transition: height 0.3s; }
-
         /* --- TARJETAS --- */
         .tile {
             background: var(--bg-card); border-radius: var(--tile-radius);
@@ -125,53 +125,46 @@
             display: flex; flex-direction: column;
             transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s;
             border: 1px solid #eee;
-            transform-origin: center center; 
+            transform-origin: center center;
         }
-
         /* --- SUPER ZOOM HOVER (3x) --- */
         .view-matrix .tile:hover {
-            transform: scale(3) !important; 
-            z-index: 5000 !important; 
+            transform: scale(3) !important;
+            z-index: 5000 !important;
             box-shadow: var(--shadow-hover);
             border: 1px solid #ccc;
         }
-
         /* Semáforo Intermitente */
         @keyframes pulse-border { 0%,100%{border-color:transparent;} 50%{border-color:currentColor;box-shadow:0 0 10px currentColor;} }
-        
+      
         .tier-green { color: var(--color-low); }
         .tier-yellow { color: var(--color-mid); }
         .tier-red { color: var(--color-hot); }
-        
+      
         .view-matrix .tile:not(:hover).tier-green { animation: pulse-border 3s infinite; }
         .view-matrix .tile:not(:hover).tier-yellow { animation: pulse-border 3s infinite; }
         .view-matrix .tile:not(:hover).tier-red { animation: pulse-border 2s infinite; }
-
         .tile-img { width: 100%; height: 70%; object-fit: cover; }
         .tile-info {
             height: 30%; padding: 4px;
             display: flex; flex-direction: column;
-            justify-content: center; align-items: center; 
+            justify-content: center; align-items: center;
             text-align: center; background: white;
         }
-
         .tile-title { font-weight: 700; font-size: 0.65rem; color: #333; line-height: 1.1; margin-bottom: 2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; width:100%; }
         .tile-discount { font-weight: 900; font-size: 0.8rem; padding: 2px 6px; border-radius: 3px; }
-
         .tier-green .tile-discount { color: var(--color-low); background: rgba(0,166,80,0.1); }
         .tier-yellow .tile-discount { color: var(--color-mid); background: rgba(255,171,0,0.1); }
         .tier-red .tile-discount { color: var(--color-hot); background: rgba(255,59,59,0.1); }
-
         /* MODO LISTA */
         .view-list #puzzle-board { display: flex; flex-direction: column; gap: 15px; padding: 10px; }
         .view-list .tile {
             position: relative !important; top: auto !important; left: auto !important;
-            width: 100% !important; height: 300px !important; 
+            width: 100% !important; height: 300px !important;
             transform: none !important;
         }
         .view-list .tile-title { font-size: 1.3rem; white-space: normal; }
         .view-list .tile-discount { font-size: 1.1rem; }
-
         /* MODAL GALERIA */
         .modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -190,7 +183,6 @@
         .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; z-index: 6005; backdrop-filter: blur(5px); }
         .nav-prev { left: 10px; } .nav-next { right: 10px; }
         .close-modal { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 2rem; cursor: pointer; z-index: 6005; }
-
         /* FAB PUBLICIDAD */
         .fab-pub {
             position: fixed; bottom: 20px; right: 20px;
@@ -199,22 +191,31 @@
             box-shadow: 0 4px 15px rgba(45, 50, 119, 0.4);
             cursor: pointer; z-index: 900; display: flex; align-items: center; gap: 10px;
         }
-
         /* FORM MODAL */
-        .form-modal-content { background: white; padding: 25px; border-radius: 15px; width: 90%; max-width: 400px; margin: auto; }
+        .form-modal-content { background: white; padding: 25px; border-radius: 15px; width: 90%; max-width: 400px; margin: auto; position: relative; }
         .form-input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
-
         .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.5); transform: scale(0); animation: ripple-anim 0.6s linear; pointer-events: none; }
         @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
-
+        /* FOOTER */
+        footer {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+            border-top: 1px solid #eee;
+        }
+        footer a { color: var(--meli-blue); text-decoration: none; }
     </style>
 </head>
 <body class="view-matrix">
-
     <header>
         <div class="header-content">
-            <div class="logo-area">MERCADO<br>DE LOCALES</div>
-            
+            <div class="logo-area">
+                <img class="logo-img" src="logo.png" alt="Logo Mercado de Locales">
+                <div class="logo-text">MERCADO<br>DE LOCALES</div>
+            </div>
+          
             <div class="segmentation-area">
                 <div class="location-badge">
                     <i class="fas fa-map-marker-alt" style="color:var(--meli-blue)"></i>
@@ -226,43 +227,55 @@
                     <span class="legend-item"><i class="fas fa-circle" style="color:var(--color-hot)"></i> >40%</span>
                 </div>
             </div>
-
             <div class="search-container">
                 <input type="text" id="search-input" placeholder="Buscar carnicería, farmacia..." onkeyup="handleSearch(this.value)">
                 <i class="fas fa-search" style="color:#ccc;"></i>
             </div>
-            
+          
             <button class="view-toggle-btn" onclick="toggleViewMode()">
                 <i class="fas fa-th-large" id="view-icon"></i>
             </button>
+            <a href="https://www.instagram.com/mercadodelocales/" target="_blank" class="ig-btn">
+                <i class="fab fa-instagram"></i>
+            </a>
         </div>
     </header>
-
     <div class="tickers-stack">
         <div class="ticker-wrap t-aviso"><div class="ticker" id="tick-aviso"></div></div>
         <div class="ticker-wrap t-hot"><div class="ticker" id="tick-hot"></div></div>
     </div>
-
     <div class="filter-bar">
         <button class="btn-filter" onclick="resetAll()">Todo</button>
         <button class="btn-filter" onclick="filter('cat', 'CARNICERIA', this)">🥩 Carnicería</button>
         <button class="btn-filter" onclick="filter('cat', 'FARMACIA', this)">💊 Farmacia</button>
         <button class="btn-filter" onclick="filter('cat', 'FERRETERIA', this)">🔧 Ferretería</button>
         <button class="btn-filter" onclick="filter('cat', 'HELADERIA', this)">🍦 Heladería</button>
+        <button class="btn-filter" onclick="filter('cat', 'PANADERIA', this)">🍞 Panadería</button>
+        <button class="btn-filter" onclick="filter('cat', 'VERDULERIA', this)">🥦 Verdulería</button>
+        <button class="btn-filter" onclick="filter('cat', 'TALLER_MECANICO', this)">🛠️ Taller Mecánico</button>
+        <button class="btn-filter" onclick="filter('cat', 'SALUD', this)">🏥 Salud</button>
+        <button class="btn-filter" onclick="filter('cat', 'GYM', this)">💪 Gym</button>
+        <button class="btn-filter" onclick="filter('cat', 'TECNOLOGIA', this)">📱 Tecnología</button>
         <div class="separator"></div>
         <button class="btn-filter green-btn" onclick="filter('discount', 'green', this)">🟢 < 20%</button>
         <button class="btn-filter yellow-btn" onclick="filter('discount', 'yellow', this)">🟡 20-40%</button>
         <button class="btn-filter red-btn" onclick="filter('discount', 'red', this)">🔴 > 40%</button>
     </div>
-
     <div class="board-container">
         <div id="puzzle-board"></div>
     </div>
+
+    <footer>
+        <p>Seguinos en <a href="https://www.instagram.com/mercadodelocales/" target="_blank"><i class="fab fa-instagram"></i> @mercadodelocales</a></p>
+        <p><button onclick="openPrivacyModal()" style="background:none;border:none;color:var(--meli-blue);text-decoration:underline;cursor:pointer;">Política de Privacidad y Responsabilidad</button></p>
+        <p style="margin-top:10px;font-size:0.75rem;color:#999;">© 2026 Mercado de Locales - Campana</p>
+    </footer>
 
     <div class="fab-pub" onclick="openFormModal()">
         <i class="fas fa-bullhorn"></i> Publicitá
     </div>
 
+    <!-- MODALES -->
     <div class="modal" id="gallery-modal">
         <button class="close-modal" onclick="closeGallery()">&times;</button>
         <button class="nav-arrow nav-prev" onclick="navGallery(-1)"><i class="fas fa-chevron-left"></i></button>
@@ -282,10 +295,16 @@
                 <input type="text" id="frm-nombre" class="form-input" placeholder="Nombre del Local" required>
                 <select id="frm-rubro" class="form-input" required>
                     <option value="" disabled selected>Seleccioná el Rubro</option>
-                    <option value="Carniceria">Carnicería</option>
+                    <option value="Carnicería">Carnicería</option>
                     <option value="Farmacia">Farmacia</option>
-                    <option value="Ferreteria">Ferretería</option>
-                    <option value="Heladeria">Heladería</option>
+                    <option value="Ferretería">Ferretería</option>
+                    <option value="Heladería">Heladería</option>
+                    <option value="Panadería">Panadería</option>
+                    <option value="Verdulería">Verdulería</option>
+                    <option value="Taller Mecánico">Taller Mecánico</option>
+                    <option value="Salud">Salud</option>
+                    <option value="Gym">Gym</option>
+                    <option value="Tecnología">Tecnología</option>
                     <option value="Otro">Otro</option>
                 </select>
                 <input type="text" id="frm-ubicacion" class="form-input" placeholder="Dirección en Campana" required>
@@ -295,20 +314,65 @@
         </div>
     </div>
 
+    <div class="modal" id="privacy-modal" style="background:rgba(0,0,0,0.8);">
+        <div class="form-modal-content" style="max-height:90vh; overflow-y:auto;">
+            <button onclick="closePrivacyModal()" style="position:absolute; top:10px; right:15px; background:none; border:none; font-size:2rem; cursor:pointer; color:#333;">&times;</button>
+            <h3 style="text-align:center; color:var(--meli-blue); padding:20px 20px 10px;">Política de Privacidad y Responsabilidad</h3>
+            <div style="padding:0 20px 30px; line-height:1.6; font-size:0.9rem;">
+                <ol style="padding-left:20px;">
+                    <li><strong>Introducción</strong><br>
+                        La presente Política de Privacidad y Responsabilidad establece los términos bajo los cuales "Mercado de Locales" opera y ofrece sus servicios de publicidad digital. Al utilizar nuestros servicios, el usuario acepta las condiciones aquí descritas.</li>
+                    <li><strong>Alcance de los Servicios</strong>
+                        <ul style="padding-left:20px; margin:10px 0;">
+                            <li>La plataforma tiene como único objetivo la difusión y promoción publicitaria de locales, productos o servicios de terceros.</li>
+                            <li>No participamos, gestionamos ni supervisamos las transacciones comerciales que puedan surgir entre usuarios y anunciantes.</li>
+                            <li>Cualquier compra, contratación o acuerdo realizado entre el usuario y un tercero es responsabilidad exclusiva de las partes involucradas.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Exención de Responsabilidad</strong><br>
+                        La plataforma no se hace responsable por:
+                        <ul style="padding-left:20px; margin:10px 0;">
+                            <li>La calidad, disponibilidad o veracidad de los productos y servicios anunciados.</li>
+                            <li>Los términos de pago, entrega o garantía ofrecidos por terceros.</li>
+                            <li>Daños, pérdidas o perjuicios derivados de transacciones realizadas fuera de nuestro entorno publicitario.</li>
+                        </ul>
+                        El usuario reconoce que la plataforma actúa únicamente como medio de publicidad y no como intermediario comercial.</li>
+                    <li><strong>Privacidad de Datos</strong>
+                        <ul style="padding-left:20px; margin:10px 0;">
+                            <li>La plataforma recopila únicamente la información necesaria para la gestión de anuncios y la mejora de la experiencia del usuario.</li>
+                            <li>Los datos personales no serán compartidos con terceros sin consentimiento expreso, salvo obligación legal.</li>
+                            <li>Se aplican medidas de seguridad razonables para proteger la información, aunque no podemos garantizar protección absoluta frente a accesos no autorizados.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Obligaciones del Usuario</strong>
+                        <ul style="padding-left:20px; margin:10px 0;">
+                            <li>El usuario se compromete a utilizar la plataforma de manera lícita y respetuosa.</li>
+                            <li>Es responsabilidad del usuario verificar la autenticidad y condiciones de cualquier oferta publicada.</li>
+                            <li>El usuario exonera a la plataforma de cualquier reclamo derivado de sus interacciones con terceros.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Modificaciones</strong><br>
+                        La plataforma se reserva el derecho de modificar esta política en cualquier momento. Las actualizaciones serán publicadas en nuestro sitio web y entrarán en vigor inmediatamente después de su publicación.</li>
+                    <li><strong>Contacto</strong><br>
+                        Para consultas relacionadas con esta política, los usuarios pueden comunicarse con nosotros a través de <a href="mailto:mercadodelocales@gmail.com">mercadodelocales@gmail.com</a>.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
     <script>
         // CONFIGURACIÓN 14x14
-        const DESKTOP_COLS = 14; 
+        const DESKTOP_COLS = 14;
         const MOBILE_COLS = 4;
-        const ROWS = 14; 
+        const ROWS = 14;
         const GAP = 4;
-        
+      
         let COLS = window.innerWidth > 800 ? DESKTOP_COLS : MOBILE_COLS;
-        let viewMode = 'matrix'; 
-        let tiles = []; 
+        let viewMode = 'matrix';
+        let tiles = [];
         let displayedTiles = [];
         let currentGalleryIndex = 0;
 
-        // DATA: RUBROS NUEVOS INCORPORADOS AL CONTEXTO
         const baseData = [
             { name: "Carnicería El Toro", cat: "CARNICERIA", discount: 45, img: "https://images.unsplash.com/photo-1607623174012-3e2c3b8d9f8d?w=400" },
             { name: "Farmacia Central", cat: "FARMACIA", discount: 15, img: "https://images.unsplash.com/photo-1585435557343-3b092031a831?w=400" },
@@ -319,14 +383,21 @@
             { name: "Herramientas Pro", cat: "FERRETERIA", discount: 50, img: "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=400" },
             { name: "Helados Artesanales", cat: "HELADERIA", discount: 18, img: "https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=400" },
             { name: "El Rey de la Carne", cat: "CARNICERIA", discount: 22, img: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400" },
-            { name: "Farmacia Del Pueblo", cat: "FARMACIA", discount: 42, img: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=400" }
+            { name: "Farmacia Del Pueblo", cat: "FARMACIA", discount: 42, img: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=400" },
+            // NUEVAS CATEGORÍAS
+            { name: "Panadería La Espiga", cat: "PANADERIA", discount: 30, img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400" },
+            { name: "Verdulería Fresca", cat: "VERDULERIA", discount: 25, img: "https://images.unsplash.com/photo-1610348726304-b1c5e6f984e6?w=400" },
+            { name: "Taller El Rápido", cat: "TALLER_MECANICO", discount: 40, img: "https://images.unsplash.com/photo-1621905252507-b3541bc6ea34?w=400" },
+            { name: "Centro Médico Salud", cat: "SALUD", discount: 15, img: "https://images.unsplash.com/photo-1532938911079-1b0c8f3473ed?w=400" },
+            { name: "Gym Power", cat: "GYM", discount: 50, img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=400" },
+            { name: "Tecnología Store", cat: "TECNOLOGIA", discount: 35, img: "https://images.unsplash.com/photo-1468495244123-6c6c332eeece?w=400" }
         ];
 
         let activeFilters = { cat: null, discount: null, search: '' };
 
         function init() {
             setTickers();
-            generateMatrix(); 
+            generateMatrix();
             render();
         }
 
@@ -346,26 +417,19 @@
             tiles = [];
             let map = Array(ROWS).fill().map(() => Array(COLS).fill(false));
             let dataIdx = 0;
-
             for(let y=0; y<ROWS; y++) {
                 for(let x=0; x<COLS; x++) {
                     if(map[y][x]) continue;
-
-                    let isBig = Math.random() > 0.85; 
+                    let isBig = Math.random() > 0.85;
                     let w = (isBig && x < COLS-1) ? 2 : 1;
                     let h = (isBig && y < ROWS-1) ? 2 : 1;
                     if(w===2 && h===2 && (map[y][x+1] || map[y+1][x] || map[y+1][x+1])) { w=1; h=1; }
-
                     for(let i=0; i<h; i++) for(let j=0; j<w; j++) map[y+i][x+j] = true;
-
                     const data = baseData[dataIdx % baseData.length];
                     dataIdx++;
-
-                    // LOGICA DE COLORES SEGUN DESCUENTO
                     let tier = 'tier-green';
                     if(data.discount >= 20) tier = 'tier-yellow';
                     if(data.discount > 40) tier = 'tier-red';
-
                     tiles.push({
                         id: `tile-${tiles.length}`, x, y, w, h, ...data, tier
                     });
@@ -377,11 +441,11 @@
             const board = document.getElementById('puzzle-board');
             board.innerHTML = '';
             displayedTiles = tiles.filter(t => checkFilter(t));
-            
+          
             if(viewMode === 'matrix') {
                 const boardWidth = board.parentElement.clientWidth;
                 const cellSize = (boardWidth - (GAP * (COLS - 1))) / COLS;
-                
+              
                 let maxY = 0;
                 displayedTiles.forEach((t, index) => {
                     const el = createTileElement(t, index);
@@ -425,11 +489,11 @@
 
         function checkFilter(t) {
             if(activeFilters.cat && t.cat !== activeFilters.cat) return false;
-            
+          
             if(activeFilters.discount === 'green' && t.discount >= 20) return false;
             if(activeFilters.discount === 'yellow' && (t.discount < 20 || t.discount > 40)) return false;
             if(activeFilters.discount === 'red' && t.discount <= 40) return false;
-            
+          
             if(activeFilters.search) {
                 const term = activeFilters.search.toLowerCase();
                 if(!t.name.toLowerCase().includes(term) && !t.cat.toLowerCase().includes(term)) return false;
@@ -439,9 +503,9 @@
 
         function filter(type, val, btn) {
             if(activeFilters[type] === val) { activeFilters[type] = null; btn.classList.remove('active'); }
-            else { 
+            else {
                 btn.parentElement.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
-                activeFilters[type] = val; btn.classList.add('active'); 
+                activeFilters[type] = val; btn.classList.add('active');
             }
             render();
         }
@@ -453,12 +517,12 @@
         function openGallery(idx) { currentGalleryIndex = idx; updateGallery(); document.getElementById('gallery-modal').classList.add('active'); }
         function closeGallery() { document.getElementById('gallery-modal').classList.remove('active'); }
         function navGallery(dir) { currentGalleryIndex = (currentGalleryIndex + dir + displayedTiles.length) % displayedTiles.length; updateGallery(); }
-        
+      
         function updateGallery() {
             const t = displayedTiles[currentGalleryIndex];
             const content = document.getElementById('gallery-card-content');
             let tierColor = t.discount > 40 ? 'var(--color-hot)' : t.discount >= 20 ? 'var(--color-mid)' : 'var(--color-low)';
-            
+          
             content.innerHTML = `
                 <img src="${t.img}" class="gallery-img">
                 <div class="gallery-body">
@@ -484,6 +548,10 @@
             closeFormModal();
         }
 
+        // PRIVACY MODAL
+        function openPrivacyModal() { document.getElementById('privacy-modal').classList.add('active'); }
+        function closePrivacyModal() { document.getElementById('privacy-modal').classList.remove('active'); }
+
         // AUTO MOVE
         setInterval(() => {
             if(viewMode === 'list' || activeFilters.cat) return;
@@ -496,12 +564,12 @@
             }
         }, 2500);
 
-        window.addEventListener('resize', () => { 
-            COLS = window.innerWidth > 800 ? DESKTOP_COLS : MOBILE_COLS; 
-            generateMatrix(); render(); 
+        window.addEventListener('resize', () => {
+            COLS = window.innerWidth > 800 ? DESKTOP_COLS : MOBILE_COLS;
+            generateMatrix(); render();
         });
-        init();
 
+        init();
     </script>
 </body>
 </html>
