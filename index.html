@@ -6,7 +6,7 @@
     <title>MERCADO DE LOCALES | Campana</title>
     <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+ 
     <style>
         :root {
             --meli-yellow: #ffe600;
@@ -92,13 +92,15 @@
         .tickers-stack { background: white; border-bottom: 1px solid #ddd; font-size: 0.75rem; }
         .ticker-wrap { width: 100%; overflow: hidden; white-space: nowrap; height: 28px; display: flex; align-items: center; }
         .ticker { display: inline-block; }
-        .t-aviso .ticker { padding-left: 100%; animation: ticker-left 170s linear infinite; }
-        .t-hot .ticker { padding-right: 100%; animation: ticker-right 170s linear infinite; }
+        .t-aviso .ticker { padding-left: 100%; animation: ticker-left 200s linear infinite; }
+        .t-hot .ticker { padding-right: 100%; animation: ticker-right 230s linear infinite; }
+        .t-delivery .ticker { padding-left: 100%; animation: ticker-left 200s linear infinite; }
         .ticker-item { display: inline-block; padding: 0 3.5rem; font-weight: 600; text-transform: uppercase; }
         @keyframes ticker-left { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
         @keyframes ticker-right { 0% { transform: translateX(-100%); } 100% { transform: translateX(0); } }
         .t-aviso { background: var(--meli-blue); color: white; }
         .t-hot { background: #ffebeb; color: var(--color-hot); }
+        .t-delivery { background: var(--meli-yellow); color: var(--meli-blue); }
         .filter-bar { overflow-x: auto; white-space: nowrap; padding: 8px 10px; background: white; display: flex; gap: 6px; align-items: center; }
         .btn-filter {
             background: #f0f0f0; border: none; padding: 6px 14px; border-radius: 20px;
@@ -144,22 +146,22 @@
             justify-content: center; align-items: center;
             text-align: center; background: white;
         }
-        .tile-title { 
-            font-weight: 700; 
+        .tile-title {
+            font-weight: 700;
             font-size: 0.75rem;
-            color: #333; 
-            line-height: 1.1; 
-            margin-bottom: 4px; 
+            color: #333;
+            line-height: 1.1;
+            margin-bottom: 4px;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap; 
+            white-space: nowrap;
             width: 90%;
         }
-        .tile-discount { 
-            font-weight: 900; 
+        .tile-discount {
+            font-weight: 900;
             font-size: 0.9rem;
-            padding: 4px 8px; 
-            border-radius: 4px; 
+            padding: 4px 8px;
+            border-radius: 4px;
         }
         .tier-green .tile-discount { color: var(--color-low); background: rgba(0,166,80,0.1); }
         .tier-yellow .tile-discount { color: var(--color-mid); background: rgba(255,171,0,0.1); }
@@ -222,19 +224,18 @@
                     <span>DE LOCALES</span>
                 </div>
             </div>
-          
+         
             <div class="segmentation-area">
                 <div class="location-badge">
                     <i class="fas fa-map-marker-alt"></i>
                     <span>Campana, Buenos Aires</span>
                 </div>
             </div>
-
             <div class="search-container">
                 <input type="text" id="search-input" placeholder="Buscar carnicería, farmacia..." onkeyup="handleSearch(this.value)">
                 <i class="fas fa-search" style="color:#ccc;"></i>
             </div>
-          
+         
             <div class="right-buttons">
                 <button class="view-toggle-btn" onclick="toggleViewMode()">
                     <i class="fas fa-th-large" id="view-icon"></i>
@@ -245,12 +246,11 @@
             </div>
         </div>
     </header>
-
     <div class="tickers-stack">
         <div class="ticker-wrap t-aviso"><div class="ticker" id="tick-aviso"></div></div>
         <div class="ticker-wrap t-hot"><div class="ticker" id="tick-hot"></div></div>
+        <div class="ticker-wrap t-delivery"><div class="ticker" id="tick-delivery"></div></div>
     </div>
-
     <div class="filter-bar">
         <button class="btn-filter" onclick="resetAll()">Todo</button>
         <button class="btn-filter" onclick="filter('cat', 'CARNICERIA', this)">🥩 Carnicería</button>
@@ -272,21 +272,17 @@
         <button class="btn-filter yellow-btn" onclick="filter('discount', 'yellow', this)">🟡 20-40%</button>
         <button class="btn-filter red-btn" onclick="filter('discount', 'red', this)">🔴 > 40%</button>
     </div>
-
     <div class="board-container">
         <div id="puzzle-board"></div>
     </div>
-
     <footer>
         <p>Seguinos en <a href="https://www.instagram.com/mercadodelocales/" target="_blank"><i class="fab fa-instagram"></i> @mercadodelocales</a></p>
         <p><button onclick="openPrivacyModal()" style="background:none;border:none;color:var(--meli-blue);text-decoration:underline;cursor:pointer;">Política de Privacidad y Responsabilidad</button></p>
         <p style="margin-top:10px;font-size:0.75rem;color:#999;">© 2026 Mercado de Locales - Campana</p>
     </footer>
-
     <div class="fab-pub" onclick="openFormModal()">
         <i class="fas fa-bullhorn"></i> Publicitá
     </div>
-
     <div class="modal" id="gallery-modal">
         <button class="close-modal" onclick="closeGallery()">&times;</button>
         <button class="nav-arrow nav-prev" onclick="navGallery(-1)"><i class="fas fa-chevron-left"></i></button>
@@ -295,7 +291,6 @@
             <div class="gallery-card" id="gallery-card-content"></div>
         </div>
     </div>
-
     <div class="modal" id="form-modal" style="background:rgba(0,0,0,0.8);">
         <div class="form-modal-content">
             <h3 style="text-align:center; color:var(--meli-blue); margin-bottom:15px;">Publicitar en Campana</h3>
@@ -323,12 +318,18 @@
                     <option value="Otro">Otro</option>
                 </select>
                 <input type="text" id="frm-ubicacion" class="form-input" placeholder="Dirección en Campana" required>
+                <select id="frm-delivery" class="form-input">
+                    <option value="" selected>Delivery (opcional)</option>
+                    <option value="Moto">Moto</option>
+                    <option value="Auto">Auto</option>
+                    <option value="Camioneta">Camioneta</option>
+                </select>
+                <input type="email" id="frm-email" class="form-input" placeholder="E-mail (opcional)">
                 <button type="submit" class="btn-action btn-wa" style="margin-top:15px;">Enviar Solicitud 🚀</button>
             </form>
             <button class="btn-action" style="background:transparent; color:#666;" onclick="closeFormModal()">Cancelar</button>
         </div>
     </div>
-
     <div class="modal" id="privacy-modal" style="background:rgba(0,0,0,0.8);">
         <div class="form-modal-content" style="max-height:90vh; overflow-y:auto;">
             <button onclick="closePrivacyModal()" style="position:absolute; top:10px; right:15px; background:none; border:none; font-size:2rem; cursor:pointer; color:#333;">&times;</button>
@@ -346,19 +347,16 @@
             </div>
         </div>
     </div>
-
     <script>
         const DESKTOP_COLS = 14;
         const MOBILE_COLS = 4;
         const ROWS = 14;
         const GAP = 4;
-
         let COLS = window.innerWidth > 800 ? DESKTOP_COLS : MOBILE_COLS;
         let viewMode = 'matrix';
         let tiles = [];
         let displayedTiles = [];
         let currentGalleryIndex = 0;
-
         const baseData = [
             { name: "Carnicería El Toro", cat: "CARNICERIA", discount: 45, img: "https://images.unsplash.com/photo-1607623174012-3e2c3b8d9f8d?w=400", location: "Av. Rivadavia 1234, Campana", url: "https://instagram.com/carniceriaeltoro", whatsapp: "543489111111", hours: { days: "Lun-Sáb", from: "08:00", to: "20:00", sundayClosed: true } },
             { name: "Farmacia Central", cat: "FARMACIA", discount: 15, img: "https://images.unsplash.com/photo-1585435557343-3b092031a831?w=400", location: "Belgrano 567, Campana", url: "https://instagram.com/farmaciacentral", whatsapp: "543489222222", hours: { days: "Lun-Dom", from: "08:00", to: "22:00", sundayClosed: false } },
@@ -385,15 +383,25 @@
             { name: "Lavandería Express", cat: "SERVICIOS", discount: 30, img: "https://images.unsplash.com/photo-1604176354204-9268737828e4?w=400", location: "Av. Principal 999, Campana", url: "https://instagram.com/lavanderiaexpress", whatsapp: "543489123456", hours: { days: "Lun-Sáb", from: "08:00", to: "19:00", sundayClosed: true } },
             { name: "Peluquería Style", cat: "SERVICIOS", discount: 25, img: "https://images.unsplash.com/photo-1562322140-8baeececf3e2?w=400", location: "Centro, Campana", url: "https://instagram.com/peluqueriastyle", whatsapp: "543489654321", hours: { days: "Lun-Sáb", from: "09:00", to: "20:00", sundayClosed: true } }
         ];
-
         let activeFilters = { cat: null, discount: null, search: '' };
-
         function init() {
             setTickers();
             generateMatrix();
             render();
-        }
 
+            // NUEVA FUNCIONALIDAD: Pausa aleatoria cada 7 segundos
+            setInterval(() => {
+                const bannerIds = ['tick-aviso', 'tick-hot', 'tick-delivery'];
+                const randomId = bannerIds[Math.floor(Math.random() * bannerIds.length)];
+                const ticker = document.getElementById(randomId);
+                if (ticker) {
+                    ticker.style.animationPlayState = 'paused';
+                    setTimeout(() => {
+                        ticker.style.animationPlayState = 'running';
+                    }, 4000);
+                }
+            }, 7000);
+        }
         function setTickers() {
             const noticias = [
                 "¡NUEVOS LOCALES SE SUMAN CADA SEMANA!",
@@ -405,36 +413,42 @@
             let avisoHTML = '';
             noticias.forEach(n => avisoHTML += `<span class="ticker-item">${n}</span>`);
             document.getElementById('tick-aviso').innerHTML = avisoHTML.repeat(20);
-
+            
             let hotHTML = '';
             baseData.forEach(local => {
                 hotHTML += `<span class="ticker-item">${local.name.toUpperCase()} - ${local.discount}% OFF</span>`;
             });
             document.getElementById('tick-hot').innerHTML = hotHTML.repeat(15);
-        }
 
+            const deliveryNoticias = [
+                "¡MUCHOS LOCALES OFRECEN DELIVERY A DOMICILIO!",
+                "PEDÍ POR WHATSAPP Y RECIBÍ EN TU CASA",
+                "TRABAJOS ARTESANALES HECHOS CON AMOR EN CAMPANA",
+                "APOYÁ A LOS ARTESANOS LOCALES",
+                "DELIVERYS RÁPIDOS Y SEGUROS EN TODA LA ZONA",
+                "COMPRÁ LOCAL CON ENVÍO A DOMICILIO"
+            ];
+            let deliveryHTML = '';
+            deliveryNoticias.forEach(n => deliveryHTML += `<span class="ticker-item">${n}</span>`);
+            document.getElementById('tick-delivery').innerHTML = deliveryHTML.repeat(20);
+        }
         function isLocalOpen(local) {
             const now = new Date();
             const day = now.getDay();
             const currentTime = now.getHours() * 60 + now.getMinutes();
-
             if (day === 0 && local.hours.sundayClosed) return false;
-
             const [fromH, fromM] = local.hours.from.split(':').map(Number);
             const [toH, toM] = local.hours.to.split(':').map(Number);
             const fromMinutes = fromH * 60 + fromM;
             const toMinutes = toH * 60 + toM;
-
             return currentTime >= fromMinutes && currentTime <= toMinutes;
         }
-
         function toggleViewMode() {
             viewMode = viewMode === 'matrix' ? 'list' : 'matrix';
             document.body.className = viewMode === 'list' ? 'view-list' : 'view-matrix';
             document.getElementById('view-icon').className = viewMode === 'list' ? 'fas fa-th' : 'fas fa-th-large';
             render();
         }
-
         function generateMatrix() {
             tiles = [];
             let map = Array(ROWS).fill().map(() => Array(COLS).fill(false));
@@ -456,12 +470,11 @@
                 }
             }
         }
-
         function render() {
             const board = document.getElementById('puzzle-board');
             board.innerHTML = '';
             displayedTiles = tiles.filter(t => checkFilter(t));
-          
+         
             if(viewMode === 'matrix') {
                 const boardWidth = board.parentElement.clientWidth;
                 const cellSize = (boardWidth - (GAP * (COLS - 1))) / COLS;
@@ -481,7 +494,6 @@
                 displayedTiles.forEach((t, index) => board.appendChild(createTileElement(t, index)));
             }
         }
-
         function createTileElement(t, index) {
             const el = document.createElement('div');
             el.className = `tile ${t.tier}`;
@@ -505,7 +517,6 @@
             };
             return el;
         }
-
         function checkFilter(t) {
             if(activeFilters.cat && t.cat !== activeFilters.cat) return false;
             if(activeFilters.discount === 'green' && t.discount >= 20) return false;
@@ -517,7 +528,6 @@
             }
             return true;
         }
-
         function filter(type, val, btn) {
             if(activeFilters[type] === val) {
                 activeFilters[type] = null;
@@ -529,31 +539,25 @@
             }
             render();
         }
-
         function handleSearch(val) { activeFilters.search = val; render(); }
-
         function resetAll() {
             activeFilters = {cat: null, discount: null, search: ''};
             document.getElementById('search-input').value = '';
             document.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
             render();
         }
-
         function openGallery(idx) {
             currentGalleryIndex = idx;
             updateGallery();
             document.getElementById('gallery-modal').classList.add('active');
         }
-
         function closeGallery() {
             document.getElementById('gallery-modal').classList.remove('active');
         }
-
         function navGallery(dir) {
             currentGalleryIndex = (currentGalleryIndex + dir + displayedTiles.length) % displayedTiles.length;
             updateGallery();
         }
-
         function updateGallery() {
             const t = displayedTiles[currentGalleryIndex];
             const now = new Date();
@@ -561,11 +565,9 @@
             const optionsTime = { hour: '2-digit', minute: '2-digit' };
             const fechaDia = now.toLocaleDateString('es-AR', optionsDate);
             const hora = now.toLocaleTimeString('es-AR', optionsTime);
-
-            const openStatus = isLocalOpen(t) ? 
-                '<span style="color:var(--color-low); font-weight:bold; font-size:1.2rem;">🟢 ABIERTO AHORA</span>' : 
+            const openStatus = isLocalOpen(t) ?
+                '<span style="color:var(--color-low); font-weight:bold; font-size:1.2rem;">🟢 ABIERTO AHORA</span>' :
                 '<span style="color:var(--color-hot); font-weight:bold; font-size:1.2rem;">🔴 CERRADO</span>';
-
             let tierColor = t.discount > 40 ? 'var(--color-hot)' : t.discount >= 20 ? 'var(--color-mid)' : 'var(--color-low)';
             const content = document.getElementById('gallery-card-content');
             content.innerHTML = `
@@ -588,22 +590,25 @@
                 </div>
             `;
         }
-
         function openFormModal() { document.getElementById('form-modal').classList.add('active'); }
         function closeFormModal() { document.getElementById('form-modal').classList.remove('active'); }
-
         function sendWhatsappForm(e) {
             e.preventDefault();
-            const n = document.getElementById('frm-nombre').value;
+            const n = document.getElementById('frm-nombre').value.trim();
             const r = document.getElementById('frm-rubro').value;
-            const u = document.getElementById('frm-ubicacion').value;
-            window.open(`https://api.whatsapp.com/send?phone=+543489686939&text=Hola! Quiero publicitar mi ${r}: ${n} en ${u}`, '_blank');
+            const u = document.getElementById('frm-ubicacion').value.trim();
+            const d = document.getElementById('frm-delivery').value;
+            const em = document.getElementById('frm-email').value.trim();
+
+            let text = `Hola! Quiero publicitar mi ${r}: ${n} ubicado en ${u}`;
+            if (d) text += ` con delivery en ${d}`;
+            if (em) text += ` - Email de contacto: ${em}`;
+
+            window.open(`https://api.whatsapp.com/send?phone=+543489686939&text=${encodeURIComponent(text)}`, '_blank');
             closeFormModal();
         }
-
         function openPrivacyModal() { document.getElementById('privacy-modal').classList.add('active'); }
         function closePrivacyModal() { document.getElementById('privacy-modal').classList.remove('active'); }
-
         setInterval(() => {
             if(viewMode === 'list' || activeFilters.cat || activeFilters.discount || activeFilters.search) return;
             const idx1 = Math.floor(Math.random() * displayedTiles.length);
@@ -616,13 +621,11 @@
                 render();
             }
         }, 2500);
-
         window.addEventListener('resize', () => {
             COLS = window.innerWidth > 800 ? DESKTOP_COLS : MOBILE_COLS;
             generateMatrix();
             render();
         });
-
         init();
     </script>
 </body>
