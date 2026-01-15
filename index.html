@@ -33,13 +33,13 @@
         }
         header {
             background-color: var(--meli-yellow);
-            padding: 8px 15px;
+            padding: 12px 15px;
             position: sticky; top: 0; z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         .header-content {
             width: 100%; margin: 0 auto;
-            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 15px;
         }
         .logo-area {
             display: flex;
@@ -50,29 +50,31 @@
             width: auto;
         }
         .segmentation-area {
-            display: flex; flex-direction: column; justify-content: center; font-size: 0.75rem;
-            margin-right: auto;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            font-size: 1rem;
+            flex: 1;
+            text-align: center;
         }
         .location-badge {
-            display: flex; align-items: center; gap: 4px; font-weight: 700; color: #333; cursor: pointer;
+            display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--meli-blue);
+            font-size: 1.1rem;
         }
-        .discount-legend {
-            display: flex; gap: 8px; font-size: 0.7rem; color: #555; margin-top: 2px;
-        }
-        .legend-item { display: flex; align-items: center; gap: 3px; font-weight: 600; }
+        .location-badge i { font-size: 1.3rem; }
         .search-container {
-            flex: 1; background: white; border-radius: 4px; min-width: 200px;
-            display: flex; align-items: center; padding: 6px 12px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            flex: 1; background: white; border-radius: 8px; min-width: 220px;
+            display: flex; align-items: center; padding: 10px 16px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
-        #search-input { border: none; width: 100%; outline: none; font-size: 0.9rem; }
+        #search-input { border: none; width: 100%; outline: none; font-size: 1rem; }
+        .right-buttons {
+            display: flex; align-items: center; gap: 10px;
+        }
         .view-toggle-btn, .ig-btn {
-            background: white; border: none; width: 36px; height: 36px; border-radius: 50%;
-            color: var(--meli-blue); font-size: 1rem; cursor: pointer;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center;
-            margin-left: 8px;
+            background: white; border: none; width: 42px; height: 42px; border-radius: 50%;
+            color: var(--meli-blue); font-size: 1.2rem; cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center;
         }
-        .ig-btn { color: #E4405F; font-size: 1.3rem; }
+        .ig-btn { color: #E4405F; font-size: 1.4rem; }
         .tickers-stack { background: white; border-bottom: 1px solid #ddd; font-size: 0.75rem; }
         .ticker-wrap { width: 100%; overflow: hidden; white-space: nowrap; height: 24px; display: flex; align-items: center; }
         .ticker { display: inline-block; animation: ticker-scroll 45s linear infinite; padding-left: 100%; }
@@ -182,26 +184,24 @@
           
             <div class="segmentation-area">
                 <div class="location-badge">
-                    <i class="fas fa-map-marker-alt" style="color:var(--meli-blue)"></i>
+                    <i class="fas fa-map-marker-alt"></i>
                     <span>Campana, Buenos Aires</span>
                 </div>
-                <div class="discount-legend">
-                    <span class="legend-item"><i class="fas fa-circle" style="color:var(--color-low)"></i> <20%</span>
-                    <span class="legend-item"><i class="fas fa-circle" style="color:var(--color-mid)"></i> 20-40%</span>
-                    <span class="legend-item"><i class="fas fa-circle" style="color:var(--color-hot)"></i> >40%</span>
-                </div>
             </div>
+
             <div class="search-container">
                 <input type="text" id="search-input" placeholder="Buscar carnicería, farmacia..." onkeyup="handleSearch(this.value)">
                 <i class="fas fa-search" style="color:#ccc;"></i>
             </div>
           
-            <button class="view-toggle-btn" onclick="toggleViewMode()">
-                <i class="fas fa-th-large" id="view-icon"></i>
-            </button>
-            <a href="https://www.instagram.com/mercadodelocales/" target="_blank" class="ig-btn">
-                <i class="fab fa-instagram"></i>
-            </a>
+            <div class="right-buttons">
+                <button class="view-toggle-btn" onclick="toggleViewMode()">
+                    <i class="fas fa-th-large" id="view-icon"></i>
+                </button>
+                <a href="https://www.instagram.com/mercadodelocales/" target="_blank" class="ig-btn">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
         </div>
     </header>
 
@@ -242,7 +242,6 @@
         <i class="fas fa-bullhorn"></i> Publicitá
     </div>
 
-    <!-- Modales -->
     <div class="modal" id="gallery-modal">
         <button class="close-modal" onclick="closeGallery()">&times;</button>
         <button class="nav-arrow nav-prev" onclick="navGallery(-1)"><i class="fas fa-chevron-left"></i></button>
@@ -288,12 +287,12 @@
             <div style="padding:0 20px 30px; line-height:1.6; font-size:0.9rem;">
                 <ol style="padding-left:20px;">
                     <li><strong>Introducción</strong><br>La presente Política de Privacidad y Responsabilidad establece los términos bajo los cuales "Mercado de Locales" opera y ofrece sus servicios de publicidad digital. Al utilizar nuestros servicios, el usuario acepta las condiciones aquí descritas.</li>
-                    <li><strong>Alcance de los Servicios</strong><ul><li>La plataforma tiene como único objetivo la difusión y promoción publicitaria de locales, productos o servicios de terceros.</li><li>No participamos, gestionamos ni supervisamos las transacciones comerciales.</li><li>Cualquier acuerdo es responsabilidad exclusiva de las partes.</li></ul></li>
-                    <li><strong>Exención de Responsabilidad</strong><br>La plataforma no se hace responsable por calidad, veracidad, términos de terceros ni daños derivados de transacciones.</li>
-                    <li><strong>Privacidad de Datos</strong><ul><li>Recopilamos solo lo necesario.</li><li>No compartimos sin consentimiento.</li></ul></li>
-                    <li><strong>Obligaciones del Usuario</strong><ul><li>Uso lícito.</li><li>Verificar ofertas.</li></ul></li>
-                    <li><strong>Modificaciones</strong><br>Podemos modificar esta política en cualquier momento.</li>
-                    <li><strong>Contacto</strong><br><a href="mailto:mercadodelocales@gmail.com">mercadodelocales@gmail.com</a></li>
+                    <li><strong>Alcance de los Servicios</strong><ul style="padding-left:20px; margin:10px 0;"><li>La plataforma tiene como único objetivo la difusión y promoción publicitaria de locales, productos o servicios de terceros.</li><li>No participamos, gestionamos ni supervisamos las transacciones comerciales que puedan surgir entre usuarios y anunciantes.</li><li>Cualquier compra, contratación o acuerdo realizado entre el usuario y un tercero es responsabilidad exclusiva de las partes involucradas.</li></ul></li>
+                    <li><strong>Exención de Responsabilidad</strong><br>La plataforma no se hace responsable por: la calidad, disponibilidad o veracidad de los productos y servicios anunciados; los términos de pago, entrega o garantía ofrecidos por terceros; daños, pérdidas o perjuicios derivados de transacciones realizadas fuera de nuestro entorno publicitario. El usuario reconoce que la plataforma actúa únicamente como medio de publicidad y no como intermediario comercial.</li>
+                    <li><strong>Privacidad de Datos</strong><ul style="padding-left:20px; margin:10px 0;"><li>La plataforma recopila únicamente la información necesaria para la gestión de anuncios y la mejora de la experiencia del usuario.</li><li>Los datos personales no serán compartidos con terceros sin consentimiento expreso, salvo obligación legal.</li><li>Se aplican medidas de seguridad razonables para proteger la información, aunque no podemos garantizar protección absoluta frente a accesos no autorizados.</li></ul></li>
+                    <li><strong>Obligaciones del Usuario</strong><ul style="padding-left:20px; margin:10px 0;"><li>El usuario se compromete a utilizar la plataforma de manera lícita y respetuosa.</li><li>Es responsabilidad del usuario verificar la autenticidad y condiciones de cualquier oferta publicada.</li><li>El usuario exonera a la plataforma de cualquier reclamo derivado de sus interacciones con terceros.</li></ul></li>
+                    <li><strong>Modificaciones</strong><br>La plataforma se reserva el derecho de modificar esta política en cualquier momento. Las actualizaciones serán publicadas en nuestro sitio web y entrarán en vigor inmediatamente después de su publicación.</li>
+                    <li><strong>Contacto</strong><br>Para consultas relacionadas con esta política, los usuarios pueden comunicarse con nosotros a través de <a href="mailto:mercadodelocales@gmail.com">mercadodelocales@gmail.com</a>.</li>
                 </ol>
             </div>
         </div>
@@ -316,7 +315,12 @@
             { name: "Farmacia Central", cat: "FARMACIA", discount: 15, img: "https://images.unsplash.com/photo-1585435557343-3b092031a831?w=400" },
             { name: "Ferretería Industrial", cat: "FERRETERIA", discount: 25, img: "https://images.unsplash.com/photo-1581235720704-06d3acfcb36f?w=400" },
             { name: "Heladería Grid", cat: "HELADERIA", discount: 30, img: "https://images.unsplash.com/photo-1576506295286-5cda18df43e7?w=400" },
-            // ... puedes seguir agregando más locales reales cuando quieras
+            { name: "Carnicería Julian", cat: "CARNICERIA", discount: 10, img: "https://images.unsplash.com/photo-1560781290-7dc94c0f8f4f?w=400" },
+            { name: "Farmacia Nueva", cat: "FARMACIA", discount: 5, img: "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400" },
+            { name: "Herramientas Pro", cat: "FERRETERIA", discount: 50, img: "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=400" },
+            { name: "Helados Artesanales", cat: "HELADERIA", discount: 18, img: "https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=400" },
+            { name: "El Rey de la Carne", cat: "CARNICERIA", discount: 22, img: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400" },
+            { name: "Farmacia Del Pueblo", cat: "FARMACIA", discount: 42, img: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=400" },
             { name: "Panadería La Espiga", cat: "PANADERIA", discount: 30, img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400" },
             { name: "Verdulería Fresca", cat: "VERDULERIA", discount: 25, img: "https://images.unsplash.com/photo-1610348726304-b1c5e6f984e6?w=400" },
             { name: "Taller El Rápido", cat: "TALLER_MECANICO", discount: 40, img: "https://images.unsplash.com/photo-1621905252507-b3541bc6ea34?w=400" },
@@ -334,8 +338,8 @@
         }
 
         function setTickers() {
-            document.getElementById('tick-aviso').innerHTML = Array(10).fill('<span class="ticker-item">NUEVAS CARNICERÍAS Y FARMACIAS EN CAMPANA 📍</span>').join('');
-            document.getElementById('tick-hot').innerHTML = Array(10).fill('<span class="ticker-item">🔥 OFERTAS EN HELADERÍAS Y FERRETERÍAS 🔥</span>').join('');
+            document.getElementById('tick-aviso').innerHTML = Array(10).fill('<span class="ticker-item">NUEVAS OFERTAS EN CAMPANA 📍</span>').join('');
+            document.getElementById('tick-hot').innerHTML = Array(10).fill('<span class="ticker-item">🔥 LAS MEJORES PROMOCIONES 🔥</span>').join('');
         }
 
         function toggleViewMode() {
@@ -349,14 +353,14 @@
             tiles = [];
             let map = Array(ROWS).fill().map(() => Array(COLS).fill(false));
             let dataIdx = 0;
-            for(let y=0; y<ROWS; y++) {
-                for(let x=0; x<COLS; x++) {
+            for(let y = 0; y < ROWS; y++) {
+                for(let x = 0; x < COLS; x++) {
                     if(map[y][x]) continue;
                     let isBig = Math.random() > 0.85;
                     let w = (isBig && x < COLS-1) ? 2 : 1;
                     let h = (isBig && y < ROWS-1) ? 2 : 1;
-                    if(w===2 && h===2 && (map[y][x+1] || map[y+1][x] || map[y+1][x+1])) { w=1; h=1; }
-                    for(let i=0; i<h; i++) for(let j=0; j<w; j++) map[y+i][x+j] = true;
+                    if(w === 2 && h === 2 && (map[y][x+1] || map[y+1][x] || map[y+1][x+1])) { w=1; h=1; }
+                    for(let i = 0; i < h; i++) for(let j = 0; j < w; j++) map[y+i][x+j] = true;
                     const data = baseData[dataIdx % baseData.length];
                     dataIdx++;
                     let tier = 'tier-green';
@@ -413,7 +417,7 @@
                 circle.style.top = `${e.clientY - el.getBoundingClientRect().top - d/2}px`;
                 circle.classList.add('ripple');
                 el.appendChild(circle);
-                setTimeout(()=>circle.remove(),600);
+                setTimeout(() => circle.remove(), 600);
                 openGallery(index);
             };
             return el;
@@ -443,14 +447,11 @@
             render();
         }
 
-        function handleSearch(val) {
-            activeFilters.search = val;
-            render();
-        }
+        function handleSearch(val) { activeFilters.search = val; render(); }
 
         function resetAll() {
-            activeFilters = {cat:null, discount:null, search:''};
-            document.getElementById('search-input').value='';
+            activeFilters = {cat: null, discount: null, search: ''};
+            document.getElementById('search-input').value = '';
             document.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
             render();
         }
@@ -474,14 +475,13 @@
             const t = displayedTiles[currentGalleryIndex];
             const content = document.getElementById('gallery-card-content');
             let tierColor = t.discount > 40 ? 'var(--color-hot)' : t.discount >= 20 ? 'var(--color-mid)' : 'var(--color-low)';
-          
             content.innerHTML = `
                 <img src="${t.img}" class="gallery-img">
                 <div class="gallery-body">
                     <h2>${t.name}</h2>
                     <h1 style="color:${tierColor}; font-size: 2.5rem; margin: 10px 0;">${t.discount}% OFF</h1>
-                    <p style="color:#666; margin-bottom:20px;">Aprovechá las mejores ofertas en <strong>${t.cat}</strong> en la zona de Campana.</p>
-                    <button class="btn-action btn-wa" onclick="window.open('https://wa.me/543489000000','_blank')">
+                    <p style="color:#666; margin-bottom:20px;">Aprovechá las mejores ofertas en <strong>${t.cat.toLowerCase()}</strong> en Campana.</p>
+                    <button class="btn-action btn-wa" onclick="window.open('https://wa.me/543489686939','_blank')">
                         <i class="fab fa-whatsapp"></i> Contactar ahora
                     </button>
                 </div>
@@ -490,6 +490,7 @@
 
         function openFormModal() { document.getElementById('form-modal').classList.add('active'); }
         function closeFormModal() { document.getElementById('form-modal').classList.remove('active'); }
+
         function sendWhatsappForm(e) {
             e.preventDefault();
             const n = document.getElementById('frm-nombre').value;
@@ -502,12 +503,12 @@
         function openPrivacyModal() { document.getElementById('privacy-modal').classList.add('active'); }
         function closePrivacyModal() { document.getElementById('privacy-modal').classList.remove('active'); }
 
-        // Movimiento automático de fichas (solo en matriz y sin filtro activo)
+        // Movimiento automático de tiles (solo en matriz y sin filtros activos)
         setInterval(() => {
             if(viewMode === 'list' || activeFilters.cat || activeFilters.discount || activeFilters.search) return;
             const idx1 = Math.floor(Math.random() * displayedTiles.length);
             const t1 = displayedTiles[idx1];
-            const neighbor = displayedTiles.find(t => t !== t1 && t.w === t1.w && t.h === t1.h && (Math.abs(t.x-t1.x)+Math.abs(t.y-t1.y) === 1));
+            const neighbor = displayedTiles.find(t => t !== t1 && t.w === t1.w && t.h === t1.h && (Math.abs(t.x - t1.x) + Math.abs(t.y - t1.y) === 1));
             if(neighbor) {
                 const tx = t1.x, ty = t1.y;
                 t1.x = neighbor.x; t1.y = neighbor.y;
@@ -526,6 +527,7 @@
     </script>
 </body>
 </html>
+
 
 
 
