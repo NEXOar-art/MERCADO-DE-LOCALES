@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ArgentPlay.online | Campana</title>
+    <title>ArgentPlay.online | Mercado de Locales</title>
     <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -113,19 +113,19 @@
         .board-container {
             flex: 1; position: relative; margin: 15px auto;
             width: 98%; max-width: 1800px; padding-bottom: 80px;
-            overflow: visible;
+            overflow: hidden; /* Evita que el zoom desplace el layout */
         }
         #puzzle-board { position: relative; width: 100%; transition: height 0.3s; overflow: visible; }
         .tile {
             background: var(--bg-card); border-radius: var(--tile-radius);
             overflow: hidden; cursor: pointer; box-shadow: var(--shadow-soft);
             display: flex; flex-direction: column;
-            transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s;
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s, z-index 0s;
             border: 1px solid #eee;
             transform-origin: center center;
         }
         .view-matrix .tile:hover {
-            transform: scale(3) !important;
+            transform: scale(2) !important; /* Reducido de 3 a 2 para menos movimiento */
             z-index: 5000 !important;
             box-shadow: var(--shadow-hover);
             border: 1px solid #ccc;
@@ -226,10 +226,10 @@
     <header>
         <div class="header-content">
             <div class="logo-area">
-                <img class="logo-img" src="mercado de locales.png" alt="ArgenPlay">
+                <img class="logo-img" src="mercado de locales.png" alt="ArgenPlay.online">
                 <div class="logo-text">
                     ArgentPlay.online
-                    <span>Mercado de Locales en Campana</span>
+                    <span>Mercado de Locales</span>
                 </div>
             </div>
         
@@ -275,6 +275,7 @@
         <button class="btn-filter" onclick="filter('cat', 'BARES', this)">🍻 Bares</button>
         <button class="btn-filter" onclick="filter('cat', 'ENTRETENIMIENTO', this)">🎉 Entretenimiento</button>
         <button class="btn-filter" onclick="filter('cat', 'SERVICIOS', this)">🔧 Servicios</button>
+        <button class="btn-filter" onclick="filter('cat', 'PAPELERIA', this)">📄 Papelería</button>
         <div class="separator"></div>
         <button class="btn-filter green-btn" onclick="filter('discount', 'green', this)">🟢 < 20%</button>
         <button class="btn-filter yellow-btn" onclick="filter('discount', 'yellow', this)">🟡 20-40%</button>
@@ -291,7 +292,7 @@
 
     <div class="fab-container">
         <div class="fab-pub" onclick="openFormModal()">
-            <i class="fas fa-bullhorn"></i> Publicitá Local
+            <i class="fas fa-bullhorn"></i> Publicita tu Local
         </div>
         <div class="fab-pub" onclick="openDeliveryModal()">
             <i class="fas fa-truck"></i> Publicar Delivery
@@ -332,6 +333,7 @@
                     <option value="Bares">Bares</option>
                     <option value="Entretenimiento">Entretenimiento</option>
                     <option value="Servicios">Servicios</option>
+                    <option value="Papelería">Papelería</option>
                     <option value="Otro">Otro</option>
                 </select>
                 <input type="text" id="frm-ubicacion" class="form-input" placeholder="Dirección en Campana" required>
@@ -606,6 +608,7 @@
                 '<span style="color:var(--color-low); font-weight:bold; font-size:1.2rem;">🟢 ABIERTO AHORA</span>' :
                 '<span style="color:var(--color-hot); font-weight:bold; font-size:1.2rem;">🔴 CERRADO</span>';
             let tierColor = t.discount > 40 ? 'var(--color-hot)' : t.discount >= 20 ? 'var(--color-mid)' : 'var(--color-low)';
+            const encodedLocation = encodeURIComponent(t.location + ", Campana, Buenos Aires");
             const content = document.getElementById('gallery-card-content');
             content.innerHTML = `
                 <img src="${t.img}" class="gallery-img">
@@ -616,7 +619,10 @@
                     <p style="margin:15px 0; font-weight:600;">Horario:</p>
                     <p style="margin-bottom:10px;">${t.hours.days}: ${t.hours.from} - ${t.hours.to} hs</p>
                     <p style="margin:10px 0; font-weight:600;">Ubicación:</p>
-                    <p style="margin-bottom:20px;">${t.location}</p>
+                    <p style="margin-bottom:10px;">${t.location}</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=${encodedLocation}" target="_blank" class="btn-action btn-url" style="margin-bottom:15px;">
+                        <i class="fas fa-map-marker-alt"></i> Ver en Mapa
+                    </a>
                     <p style="font-size:0.9rem; color:#555; margin:10px 0;">${fechaDia.charAt(0).toUpperCase() + fechaDia.slice(1)} - ${hora} hs</p>
                     <a href="${t.url}" target="_blank" class="btn-action btn-url">
                         <i class="fab fa-instagram"></i> Ver Instagram / Sitio Web
@@ -677,6 +683,7 @@
     </script>
 </body>
 </html>
+
 
 
 
