@@ -46,7 +46,7 @@
             gap: 12px;
         }
         .logo-img {
-            height: 115px;
+            height: 90px;
             width: 80px;
         }
         .logo-text {
@@ -305,6 +305,15 @@
         <button class="btn-filter" onclick="filter('cat', 'KIOSCO', this)">🏪 Kiosco</button>
         <button class="btn-filter" onclick="filter('cat', 'ALMACEN', this)">🏪 Almacén</button>
         <button class="btn-filter" onclick="filter('cat', 'MERCADO', this)">🛒 Mercado</button>
+        <button class="btn-filter" onclick="filter('cat', 'AUTOPARTES', this)">🔧 Autopartes</button>
+        <button class="btn-filter" onclick="filter('cat', 'TIENDA', this)">🏬 Tienda</button>
+        <button class="btn-filter" onclick="filter('cat', 'QUINTA', this)">🌳 Quinta</button>
+        <button class="btn-filter" onclick="filter('cat', 'LAVANDERIA', this)">🧺 Lavandería</button>
+        <button class="btn-filter" onclick="filter('cat', 'LUBRICENTRO', this)">🛢️ Lubricentro</button>
+        <button class="btn-filter" onclick="filter('cat', 'FLETES', this)">🚚 Fletes</button>
+        <button class="btn-filter" onclick="filter('cat', 'ARTESANIAS', this)">🎨 Artesanías</button>
+        <button class="btn-filter" onclick="filter('cat', 'CATERING', this)">🍽️ Catering</button>
+        <button class="btn-filter" onclick="filter('cat', 'HERRERIA', this)">🔨 Herrería</button>
         <div class="separator"></div>
         <button class="btn-filter green-btn" onclick="filter('discount', 'green', this)">🟢 < 20%</button>
         <button class="btn-filter yellow-btn" onclick="filter('discount', 'yellow', this)">🟡 20-40%</button>
@@ -377,6 +386,15 @@
                     <option value="Kiosco">Kiosco</option>
                     <option value="Almacén">Almacén</option>
                     <option value="Mercado">Mercado</option>
+                    <option value="Autopartes">Autopartes</option>
+                    <option value="Tienda">Tienda</option>
+                    <option value="Quinta">Quinta</option>
+                    <option value="Lavandería">Lavandería</option>
+                    <option value="Lubricentro">Lubricentro</option>
+                    <option value="Fletes">Fletes</option>
+                    <option value="Artesanías">Artesanías</option>
+                    <option value="Catering">Catering</option>
+                    <option value="Herrería">Herrería</option>
                     <option value="Otro">Otro</option>
                 </select>
                 <input type="text" id="frm-ubicacion" class="form-input" placeholder="Dirección en Campana" required>
@@ -430,7 +448,7 @@
     <script>
         const DESKTOP_COLS = 14;
         const MOBILE_COLS = 4;
-        const ROWS = 100;
+        const ROWS = 49;
         const GAP = 4;
         let COLS = window.innerWidth > 800 ? DESKTOP_COLS : MOBILE_COLS;
         let viewMode = 'matrix';
