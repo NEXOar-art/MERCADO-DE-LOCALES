@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ArgentPlay.online Mercado De Locales</title>
-    <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova&family=Roboto:wght@300;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -71,6 +71,10 @@
         .location-badge {
             display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--arg-white);
             font-size: 1.1rem;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
         }
         .location-badge i { font-size: 1.3rem; }
         .search-container {
@@ -113,7 +117,8 @@
         .separator { width:1px; height: 20px; background:#ddd; margin:0 5px; }
         .board-container {
             flex: 1; position: relative; margin: 15px auto;
-            width: 98%; max-width: 1800px; padding-bottom: 80px;
+            width: 98%; max-width: 1800px;
+            padding-bottom: 80px;
             overflow: hidden;
         }
         #puzzle-board { position: relative; width: 100%; transition: height 0.3s; overflow: visible; }
@@ -121,13 +126,11 @@
             background: var(--bg-card); border-radius: var(--tile-radius);
             overflow: hidden; cursor: pointer; box-shadow: var(--shadow-soft);
             display: flex; flex-direction: column;
-            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s, width 0.6s, height 0.6s;
+            transition: box-shadow 0.6s;
             border: 1px solid #eee;
             transform-origin: center center;
         }
         .view-matrix .tile:hover {
-            transform: scale(2) !important;
-            z-index: 5000 !important;
             box-shadow: var(--shadow-hover);
             border: 1px solid #ccc;
             position: relative;
@@ -237,6 +240,86 @@
             margin-top: 20px;
             font-weight: 600;
         }
+        /* ==== POPUP DE ANUNCIO AL CARGAR ==== */
+        .announcement-content {
+            background: var(--arg-white);
+            border-radius: 20px;
+            padding: 40px 20px;
+            width: 95%;
+            max-width: 550px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: var(--shadow-hover);
+            position: relative;
+            animation: slideUp 0.5s ease-out;
+        }
+        .announcement-content h1 {
+            font-size: 2.4rem;
+            color: var(--arg-celeste);
+            margin-bottom: 20px;
+        }
+        .announcement-content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #222;
+        }
+        .announcement-content .btn-close-popup {
+            background: var(--arg-celeste);
+            color: white;
+            padding: 14px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            margin-top: 10px;
+        }
+        /* ==== POPUP EXIT-INTENT ==== */
+        .exit-intent-content {
+            background: var(--color-hot);
+            color: white;
+            border-radius: 20px;
+            padding: 40px 20px;
+            width: 95%;
+            max-width: 550px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: var(--shadow-hover);
+            position: relative;
+            animation: slideUp 0.5s ease-out;
+        }
+        .exit-intent-content p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .exit-intent-content .btn-publicitar {
+            background: #25D366;
+            color: white;
+            font-size: 1.2rem;
+            padding: 16px 32px;
+            border-radius: 50px;
+            margin: 10px 0;
+        }
+        .exit-intent-content .btn-no-gracias {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            margin-top: 10px;
+        }
+        /* PRIVACY MODAL */
+        .privacy-content {
+            background: var(--arg-white);
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            margin: auto;
+            max-height: 85vh;
+            overflow-y: auto;
+            text-align: left;
+        }
+        .privacy-content h3 { color: var(--arg-celeste); text-align: center; margin-bottom: 20px; }
+        .privacy-content p { margin-bottom: 15px; line-height: 1.6; }
     </style>
 </head>
 <body class="view-matrix">
@@ -249,7 +332,7 @@
                     <span>Mercado De Locales</span>
                 </div>
             </div>
-       
+     
             <div class="segmentation-area">
                 <div class="location-badge">
                     <i class="fas fa-map-marker-alt"></i>
@@ -260,7 +343,7 @@
                 <input type="text" id="search-input" placeholder="Buscar carnicería, farmacia..." onkeyup="handleSearch(this.value)">
                 <i class="fas fa-search" style="color:#ccc;"></i>
             </div>
-       
+     
             <div class="right-buttons">
                 <button class="view-toggle-btn" onclick="toggleViewMode()">
                     <i class="fas fa-th-large" id="view-icon"></i>
@@ -314,6 +397,8 @@
         <button class="btn-filter" onclick="filter('cat', 'ARTESANIAS', this)">🎨 Artesanías</button>
         <button class="btn-filter" onclick="filter('cat', 'CATERING', this)">🍽️ Catering</button>
         <button class="btn-filter" onclick="filter('cat', 'HERRERIA', this)">🔨 Herrería</button>
+        <button class="btn-filter" onclick="filter('cat', 'CAMPING', this)">🏕️ Camping</button>
+        <button class="btn-filter" onclick="filter('cat', 'SALON_DE_EVENTOS', this)">🎉 Salón de Eventos</button>
         <div class="separator"></div>
         <button class="btn-filter green-btn" onclick="filter('discount', 'green', this)">🟢 < 20%</button>
         <button class="btn-filter yellow-btn" onclick="filter('discount', 'yellow', this)">🟡 20-40%</button>
@@ -335,6 +420,31 @@
             <i class="fas fa-truck"></i> Publicar Delivery
         </div>
     </div>
+    <!-- POPUP DE ANUNCIO AL CARGAR -->
+    <div class="modal" id="announcement-modal">
+        <div class="announcement-content">
+            <button class="close-modal" onclick="closeAnnouncement()">&times;</button>
+            <h1>¡Descubrí lo que está pasando cerca tuyo!</h1>
+            <p>Más de 15 locales recién sumados con descuentos irresistibles de hasta <strong>50% OFF</strong>.</p>
+            <p>👉 Vení a conocerlos, disfrutá las ofertas en persona y asegurá tu beneficio antes que se agoten.</p>
+            <p>📲 Seguinos en Instagram para enterarte primero de las próximas aperturas y promociones exclusivas.</p>
+            <button class="btn-action btn-close-popup" onclick="closeAnnouncement()">Explorar ofertas</button>
+        </div>
+    </div>
+    <!-- POPUP EXIT-INTENT -->
+    <div class="modal" id="exit-intent-modal">
+        <div class="exit-intent-content">
+            <button class="close-modal" style="color:white;" onclick="closeExitIntent()">&times;</button>
+            <p><strong>¿Querés que miles de personas de Campana vean tu local con las mejores ofertas?</strong></p>
+            <p>¡Publicitá y atraé más clientes!</p>
+            <button class="btn-action btn-publicitar" onclick="openFormModal(); closeExitIntent();">
+                Publicitar mi Local Ahora 🚀
+            </button>
+            <button class="btn-action btn-no-gracias" onclick="declineExitIntent();">
+                No, gracias
+            </button>
+        </div>
+    </div>
     <!-- Modal de compartir (QR) -->
     <div class="modal" id="share-modal">
         <button class="close-modal" onclick="closeShareModal()">&times;</button>
@@ -343,6 +453,7 @@
             <p>¡Escaneá y compartí ArgentPlay.online con tus amigos!</p>
         </div>
     </div>
+    <!-- MODAL DE DETALLE DEL LOCAL -->
     <div class="modal" id="gallery-modal">
         <button class="close-modal" onclick="closeGallery()">&times;</button>
         <button class="nav-arrow nav-prev" onclick="navGallery(-1)"><i class="fas fa-chevron-left"></i></button>
@@ -354,98 +465,107 @@
     <!-- Modal para publicitar local -->
     <div class="modal" id="form-modal" style="background:rgba(0,0,0,0.8);">
         <div class="form-modal-content">
-            <h3 style="text-align:center; color:var(--arg-celeste); margin-bottom:15px;">Publicitar Local en Campana</h3>
-            <p style="text-align:center; font-size:0.8rem; color:#666; margin-bottom:15px;">
-                Sumate con tu local a las mejores ofertas de la zona.
+            <button class="close-modal" style="color:#333;" onclick="closeFormModal()">&times;</button>
+            <h3 style="text-align:center; color:var(--arg-celeste); margin-bottom:15px;">🚀 Publicitar Local en Campana</h3>
+            <p style="text-align:center; font-size:0.9rem; color:#666; margin-bottom:20px;">
+                ¡Sumá tu local a las mejores ofertas de la zona! 📈
             </p>
             <form onsubmit="sendWhatsappForm(event)">
-                <input type="text" id="frm-nombre" class="form-input" placeholder="Nombre del Local" required>
+                <input type="text" id="frm-nombre" class="form-input" placeholder="🏪 Nombre del Local" required>
                 <select id="frm-rubro" class="form-input" required>
-                    <option value="" disabled selected>Seleccioná el Rubro</option>
-                    <option value="Carnicería">Carnicería</option>
-                    <option value="Farmacia">Farmacia</option>
-                    <option value="Ferretería">Ferretería</option>
-                    <option value="Heladería">Heladería</option>
-                    <option value="Panadería">Panadería</option>
-                    <option value="Verdulería">Verdulería</option>
-                    <option value="Taller Mecánico">Taller Mecánico</option>
-                    <option value="Salud">Salud</option>
-                    <option value="Gym">Gym</option>
-                    <option value="Tecnología">Tecnología</option>
-                    <option value="Comida">Comida</option>
-                    <option value="Bares">Bares</option>
-                    <option value="Entretenimiento">Entretenimiento</option>
-                    <option value="Servicios">Servicios</option>
-                    <option value="Papelería">Papelería</option>
-                    <option value="Peluquerías y Barberías">Peluquerías y Barberías</option>
-                    <option value="Corralón">Corralón</option>
-                    <option value="Lavadero de Autos">Lavadero de Autos</option>
-                    <option value="Cotillón">Cotillón</option>
-                    <option value="Gomería">Gomería</option>
-                    <option value="Mayorista">Mayorista</option>
-                    <option value="Kiosco">Kiosco</option>
-                    <option value="Almacén">Almacén</option>
-                    <option value="Mercado">Mercado</option>
-                    <option value="Autopartes">Autopartes</option>
-                    <option value="Tienda">Tienda</option>
-                    <option value="Quinta">Quinta</option>
-                    <option value="Lavandería">Lavandería</option>
-                    <option value="Lubricentro">Lubricentro</option>
-                    <option value="Fletes">Fletes</option>
-                    <option value="Artesanías">Artesanías</option>
-                    <option value="Catering">Catering</option>
-                    <option value="Herrería">Herrería</option>
-                    <option value="Otro">Otro</option>
+                    <option value="" disabled selected>🗂️ Seleccioná el Rubro</option>
+                    <option value="Carnicería">🥩 Carnicería</option>
+                    <option value="Farmacia">💊 Farmacia</option>
+                    <option value="Ferretería">🔧 Ferretería</option>
+                    <option value="Heladería">🍦 Heladería</option>
+                    <option value="Panadería">🍞 Panadería</option>
+                    <option value="Verdulería">🥦 Verdulería</option>
+                    <option value="Taller Mecánico">🛠️ Taller Mecánico</option>
+                    <option value="Salud">🏥 Salud</option>
+                    <option value="Gym">💪 Gym</option>
+                    <option value="Tecnología">📱 Tecnología</option>
+                    <option value="Comida">🍔 Comida</option>
+                    <option value="Bares">🍻 Bares</option>
+                    <option value="Entretenimiento">🎉 Entretenimiento</option>
+                    <option value="Servicios">🔧 Servicios</option>
+                    <option value="Papelería">📄 Papelería</option>
+                    <option value="Peluquerías y Barberías">✂️ Peluquerías y Barberías</option>
+                    <option value="Corralón">🏗️ Corralón</option>
+                    <option value="Lavadero de Autos">🚗 Lavadero de Autos</option>
+                    <option value="Cotillón">🎉 Cotillón</option>
+                    <option value="Gomería">🛞 Gomería</option>
+                    <option value="Mayorista">📦 Mayorista</option>
+                    <option value="Kiosco">🏪 Kiosco</option>
+                    <option value="Almacén">🏪 Almacén</option>
+                    <option value="Mercado">🛒 Mercado</option>
+                    <option value="Autopartes">🔧 Autopartes</option>
+                    <option value="Tienda">🏬 Tienda</option>
+                    <option value="Quinta">🌳 Quinta</option>
+                    <option value="Lavandería">🧺 Lavandería</option>
+                    <option value="Lubricentro">🛢️ Lubricentro</option>
+                    <option value="Fletes">🚚 Fletes</option>
+                    <option value="Artesanías">🎨 Artesanías</option>
+                    <option value="Catering">🍽️ Catering</option>
+                    <option value="Herrería">🔨 Herrería</option>
+                    <option value="Camping">🏕️ Camping</option>
+                    <option value="Salón de Eventos">🎉 Salón de Eventos</option>
+                    <option value="Otro">❓ Otro</option>
                 </select>
-                <input type="text" id="frm-ubicacion" class="form-input" placeholder="Dirección en Campana" required>
-                <input type="email" id="frm-email" class="form-input" placeholder="E-mail (opcional)">
-                <button type="submit" class="btn-action btn-wa" style="margin-top:15px;">Enviar Solicitud 🚀</button>
+                <input type="text" id="frm-ubicacion" class="form-input" placeholder="📍 Dirección en Campana" required>
+                <input type="email" id="frm-email" class="form-input" placeholder="📧 E-mail (opcional)">
+                <button type="submit" class="btn-action btn-wa" style="margin-top:20px;">📤 Enviar Solicitud por WhatsApp 🚀</button>
             </form>
-            <button class="btn-action" style="background:transparent; color:#666;" onclick="closeFormModal()">Cancelar</button>
+            <button class="btn-action" style="background:transparent; color:#666; margin-top:10px;" onclick="closeFormModal()">Cancelar</button>
         </div>
     </div>
     <!-- Modal para registrar delivery -->
     <div class="modal" id="delivery-modal" style="background:rgba(0,0,0,0.8);">
         <div class="form-modal-content">
-            <h3 style="text-align:center; color:var(--arg-celeste); margin-bottom:15px;">Publicar como Delivery en Campana</h3>
-            <p style="text-align:center; font-size:0.8rem; color:#666; margin-bottom:15px;">
-                Registrate para ofrecer tus servicios de delivery en la zona.
+            <button class="close-modal" style="color:#333;" onclick="closeDeliveryModal()">&times;</button>
+            <h3 style="text-align:center; color:var(--arg-celeste); margin-bottom:15px;">🚚 Publicar como Delivery en Campana</h3>
+            <p style="text-align:center; font-size:0.9rem; color:#666; margin-bottom:20px;">
+                ¡Registrate para ofrecer delivery en la zona! 📦
             </p>
             <form onsubmit="sendDeliveryWhatsappForm(event)">
-                <input type="text" id="del-nombre" class="form-input" placeholder="Tu Nombre" required>
+                <input type="text" id="del-nombre" class="form-input" placeholder="👤 Tu Nombre" required>
                 <select id="del-vehiculo" class="form-input" required>
-                    <option value="" disabled selected>Seleccioná Tipo de Vehículo</option>
-                    <option value="Moto">Moto</option>
-                    <option value="Auto">Auto</option>
-                    <option value="Camioneta">Camioneta</option>
+                    <option value="" disabled selected>🚗 Tipo de Vehículo</option>
+                    <option value="Moto">🏍️ Moto</option>
+                    <option value="Auto">🚗 Auto</option>
+                    <option value="Camioneta">🚐 Camioneta</option>
                 </select>
-                <input type="text" id="del-direccion" class="form-input" placeholder="Dirección en Campana" required>
-                <input type="text" id="del-dni" class="form-input" placeholder="DNI" required>
-                <input type="email" id="del-email" class="form-input" placeholder="E-mail (opcional)">
-                <button type="submit" class="btn-action btn-wa" style="margin-top:15px;">Enviar Solicitud 🚀</button>
+                <input type="text" id="del-direccion" class="form-input" placeholder="📍 Dirección en Campana" required>
+                <input type="text" id="del-dni" class="form-input" placeholder="🆔 DNI" required>
+                <input type="email" id="del-email" class="form-input" placeholder="📧 E-mail (opcional)">
+                <button type="submit" class="btn-action btn-wa" style="margin-top:20px;">📤 Enviar Solicitud por WhatsApp 🚀</button>
             </form>
-            <button class="btn-action" style="background:transparent; color:#666;" onclick="closeDeliveryModal()">Cancelar</button>
+            <button class="btn-action" style="background:transparent; color:#666; margin-top:10px;" onclick="closeDeliveryModal()">Cancelar</button>
         </div>
     </div>
-    <div class="modal" id="privacy-modal" style="background:rgba(0,0,0,0.8);">
-        <div class="form-modal-content" style="max-height:90vh; overflow-y:auto;">
-            <button onclick="closePrivacyModal()" style="position:absolute; top:10px; right:15px; background:none; border:none; font-size:2rem; cursor:pointer; color:#333;">&times;</button>
-            <h3 style="text-align:center; color:var(--arg-celeste); padding:20px 20px 10px;">Política de Privacidad y Responsabilidad</h3>
-            <div style="padding:0 20px 30px; line-height:1.6; font-size:0.9rem;">
-                <ol style="padding-left:20px;">
-                    <li><strong>Introducción</strong><br>La presente Política de Privacidad y Responsabilidad establece los términos bajo los cuales "Mercado de Locales" opera y ofrece sus servicios de publicidad digital. Al utilizar nuestros servicios, el usuario acepta las condiciones aquí descritas.</li>
-                    <li><strong>Alcance de los Servicios</strong><ul style="padding-left:20px; margin:10px 0;"><li>La plataforma tiene como único objetivo la difusión y promoción publicitaria de locales, productos o servicios de terceros.</li><li>No participamos, gestionamos ni supervisamos las transacciones comerciales que puedan surgir entre usuarios y anunciantes.</li><li>Cualquier compra, contratación o acuerdo realizado entre el usuario y un tercero es responsabilidad exclusiva de las partes involucradas.</li></ul></li>
-                    <li><strong>Exención de Responsabilidad</strong><br>La plataforma no se hace responsable por: la calidad, disponibilidad o veracidad de los productos y servicios anunciados; los términos de pago, entrega o garantía ofrecidos por terceros; daños, pérdidas o perjuicios derivados de transacciones realizadas fuera de nuestro entorno publicitario. El usuario reconoce que la plataforma actúa únicamente como medio de publicidad y no como intermediario comercial.</li>
-                    <li><strong>Privacidad de Datos</strong><ul style="padding-left:20px; margin:10px 0;"><li>La plataforma recopila únicamente la información necesaria para la gestión de anuncios y la mejora de la experiencia del usuario.</li><li>Los datos personales no serán compartidos con terceros sin consentimiento expreso, salvo obligación legal.</li><li>Se aplican medidas de seguridad razonables para proteger la información, aunque no podemos garantizar protección absoluta frente a accesos no autorizados.</li></ul></li>
-                    <li><strong>Obligaciones del Usuario</strong><ul style="padding-left:20px; margin:10px 0;"><li>El usuario se compromete a utilizar la plataforma de manera lícita y respetuosa.</li><li>Es responsabilidad del usuario verificar la autenticidad y condiciones de cualquier oferta publicada.</li><li>El usuario exonera a la plataforma de cualquier reclamo derivado de sus interacciones con terceros.</li></ul></li>
-                    <li><strong>Modificaciones</strong><br>La plataforma se reserva el derecho de modificar esta política en cualquier momento. Las actualizaciones serán publicadas en nuestro sitio web y entrarán en vigor inmediatamente después de su publicación.</li>
-                    <li><strong>Contacto</strong><br>Para consultas relacionadas con esta política, los usuarios pueden comunicarse con nosotros a través de <a href="mailto:mercadodelocales@gmail.com">mercadodelocales@gmail.com</a>.</li>
-                    <li><strong>Responsabilidad en Servicios de Delivery</strong><br>La plataforma ArgenPlay no se responsabiliza de acciones y transacciones comerciales entre particulares y servicios de delivery.</li>
-                </ol>
-            </div>
+    <!-- Modal de Política de Privacidad y Responsabilidad -->
+    <div class="modal" id="privacy-modal">
+        <div class="privacy-content">
+            <button class="close-modal" onclick="closePrivacyModal()">&times;</button>
+            <h3>📜 Política de Privacidad y Responsabilidad</h3>
+            <p><strong>Privacidad de los datos</strong></p>
+            <p>Los datos que enviás a través de los formularios de “Publicitar Local” y “Publicar Delivery” se envían directamente por WhatsApp al administrador de Mercado de Locales. No se almacenan en servidores ni bases de datos de esta página.</p>
+            <p>Solo utilizamos esa información para contactarte y coordinar la publicación de tu local o servicio de delivery. No compartimos tus datos con terceros.</p>
+            <p><strong>Responsabilidad</strong></p>
+            <p>Las ofertas, descuentos y servicios publicados son responsabilidad exclusiva de cada comercio. Mercado de Locales actúa únicamente como plataforma de difusión.</p>
+            <p>No nos responsabilizamos por la veracidad de las promociones ni por la calidad de los productos/servicios ofrecidos.</p>
+            <p>Gracias por confiar en nosotros para promocionar el comercio local de Campana ❤️</p>
+            <button class="btn-action btn-url" style="margin-top:20px;" onclick="closePrivacyModal()">Cerrar</button>
         </div>
     </div>
     <script>
+        const CURRENT_VERSION = "2.4";
+        const url = new URL(window.location.href);
+        if (url.searchParams.get("v") !== CURRENT_VERSION) {
+            url.searchParams.set("v", CURRENT_VERSION);
+            localStorage.setItem("appVersion", CURRENT_VERSION);
+            window.location.replace(url.href);
+        }
+        const POPUP_SEEN_KEY = "popupSeen";
         const DESKTOP_COLS = 14;
         const MOBILE_COLS = 4;
         const ROWS = 100;
@@ -480,65 +600,38 @@
             { name: "Sala de Juegos Fun", cat: "ENTRETENIMIENTO", discount: 45, img: "https://images.unsplash.com/photo-1549924230-c5b32a11e3d3?w=400", location: "Shopping Campana", url: "https://instagram.com/saladejuegosfun", whatsapp: "543489223344", hours: { days: "Lun-Dom", from: "10:00", to: "22:00", sundayClosed: false } },
             { name: "Lavandería Express", cat: "SERVICIOS", discount: 30, img: "https://images.unsplash.com/photo-1604176354204-9268737828e4?w=400", location: "Av. Principal 999, Campana", url: "https://instagram.com/lavanderiaexpress", whatsapp: "543489123456", hours: { days: "Lun-Sáb", from: "08:00", to: "19:00", sundayClosed: true } },
             { name: "Peluquería Style", cat: "SERVICIOS", discount: 25, img: "https://images.unsplash.com/photo-1562322140-8baeececf3e2?w=400", location: "Centro, Campana", url: "https://instagram.com/peluqueriastyle", whatsapp: "543489654321", hours: { days: "Lun-Sáb", from: "09:00", to: "20:00", sundayClosed: true } },
-            { name: "Todo Casero", cat: "COMIDA", discount: 10, img: "logo.jpeg", location: "Campana", url: "https://nexoar-art.github.io/ROTISERIA-MALVINAS/", whatsapp: "543489358998", hours: { days: "Lun-Dom", from: "20:00", to: "23:50", sundayClosed: true } },
-            { name: "NEXO-Art Paginas Web", cat: "SERVICIOS", discount: 10, img: "NEXO-ART.png", location: " Campana", url: "https://nexoar-art.github.io/NEXO-art/", whatsapp: "543489686939", hours: { days: "Lun-Sáb", from: "08:00", to: "19:00", sundayClosed: true } }
+            { name: "Todo Casero", cat: "COMIDA", discount: 10, img: "logo.jpeg", location: "Campana", url: "https://nexoar-art.github.io/ROTISERIA-MALVINAS/", whatsapp: "543489686939", hours: { days: "Lun-Dom", from: "20:00", to: "23:50", sundayClosed: true } },
+            { name: "NEXO-Art Paginas Web", cat: "SERVICIOS", discount: 10, img: "NEXO-ART.png", location: " Campana", url: "https://nexoar-art.github.io/NEXO-art/", whatsapp: "543489123456", hours: { days: "Lun-Sáb", from: "08:00", to: "19:00", sundayClosed: true } },
+            { name: "Estampados One Love ", cat: "TIENDA", discount: 5, img: "ESTAMPADOS ONE LOVE.png", location: "https://maps.app.goo.gl/1qtTANXEH5v7Ye9B6", url: "https://www.instagram.com/estampados_one_love/", whatsapp: "541123106002", hours: { days: "Lun-Sáb", from: "09:00", to: "18:00", sundayClosed: true } }
         ];
         let activeFilters = { cat: null, discount: null, search: '' };
-        function init() {
-            setTickers();
-            generateMatrix();
-            render();
-            setInterval(() => {
-                const bannerIds = ['tick-aviso', 'tick-hot', 'tick-delivery'];
-                const randomId = bannerIds[Math.floor(Math.random() * bannerIds.length)];
-                const ticker = document.getElementById(randomId);
-                if (ticker) {
-                    ticker.style.animationPlayState = 'paused';
-                    setTimeout(() => {
-                        ticker.style.animationPlayState = 'running';
-                    }, 8000);
-                }
-            }, 12000);
+
+        // Funciones para modales
+        function openFormModal() { document.getElementById('form-modal').classList.add('active'); }
+        function closeFormModal() { document.getElementById('form-modal').classList.remove('active'); }
+        function openDeliveryModal() { document.getElementById('delivery-modal').classList.add('active'); }
+        function closeDeliveryModal() { document.getElementById('delivery-modal').classList.remove('active'); }
+        function openShareModal() { document.getElementById('share-modal').classList.add('active'); }
+        function closeShareModal() { document.getElementById('share-modal').classList.remove('active'); }
+        function openPrivacyModal() { document.getElementById('privacy-modal').classList.add('active'); }
+        function closePrivacyModal() { document.getElementById('privacy-modal').classList.remove('active'); }
+
+        function openAnnouncement() {
+            document.getElementById('announcement-modal').classList.add('active');
         }
-        function setTickers() {
-            const noticias = [
-                "¡NUEVOS LOCALES SE SUMAN CADA SEMANA!",
-                "OFERTAS EXCLUSIVAS EN CAMPANA",
-                "PUBLICITÁ TU LOCAL GRATIS POR WHATSAPP",
-                "MÁS DE 20 RUBROS DISPONIBLES",
-                "DESCUENTOS HASTA 50% OFF"
-            ];
-            let avisoHTML = '';
-            noticias.forEach(n => avisoHTML += `<span class="ticker-item">${n}</span>`);
-            document.getElementById('tick-aviso').innerHTML = avisoHTML.repeat(20);
-          
-            let hotHTML = '';
-            baseData.forEach(local => {
-                hotHTML += `<span class="ticker-item">${local.name.toUpperCase()} - ${local.discount}% OFF</span>`;
-            });
-            document.getElementById('tick-hot').innerHTML = hotHTML.repeat(15);
-            const deliveryNoticias = [
-                "¡DELIVERY POR CABIFY, UBER, PEDIDOS YA !",
-                "DELIVERY PARTICULAR",
-                "TRABAJOS ARTESANALES HECHOS CON AMOR EN CAMPANA",
-                "APOYÁ A LOS ARTESANOS LOCALES",
-                "DELIVERYS RÁPIDOS Y SEGUROS EN TODA LA ZONA",
-                "COMPRÁ LOCAL CON ENVÍO A DOMICILIO"
-            ];
-            let deliveryHTML = '';
-            deliveryNoticias.forEach(n => deliveryHTML += `<span class="ticker-item">${n}</span>`);
-            document.getElementById('tick-delivery').innerHTML = deliveryHTML.repeat(20);
+        function closeAnnouncement() {
+            document.getElementById('announcement-modal').classList.remove('active');
+            localStorage.setItem(POPUP_SEEN_KEY, CURRENT_VERSION);
         }
-        function isLocalOpen(local) {
-            const now = new Date();
-            const day = now.getDay();
-            const currentTime = now.getHours() * 60 + now.getMinutes();
-            if (day === 0 && local.hours.sundayClosed) return false;
-            const [fromH, fromM] = local.hours.from.split(':').map(Number);
-            const [toH, toM] = local.hours.to.split(':').map(Number);
-            const fromMinutes = fromH * 60 + fromM;
-            const toMinutes = toH * 60 + toM;
-            return currentTime >= fromMinutes && currentTime <= toMinutes;
+        function openExitIntent() {
+            document.getElementById('exit-intent-modal').classList.add('active');
+        }
+        function closeExitIntent() {
+            document.getElementById('exit-intent-modal').classList.remove('active');
+        }
+        function declineExitIntent() {
+            closeExitIntent();
+            localStorage.setItem('exitIntentShown', 'true');
         }
         function toggleViewMode() {
             viewMode = viewMode === 'matrix' ? 'list' : 'matrix';
@@ -571,7 +664,7 @@
             const board = document.getElementById('puzzle-board');
             board.innerHTML = '';
             displayedTiles = tiles.filter(t => checkFilter(t));
-       
+     
             if(viewMode === 'matrix') {
                 const boardWidth = board.parentElement.clientWidth;
                 const cellSize = (boardWidth - (GAP * (COLS - 1))) / COLS;
@@ -691,21 +784,61 @@
                 </div>
             `;
         }
-        function openFormModal() { document.getElementById('form-modal').classList.add('active'); }
-        function closeFormModal() { document.getElementById('form-modal').classList.remove('active'); }
+        function isLocalOpen(local) {
+            const now = new Date();
+            const day = now.getDay();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            if (day === 0 && local.hours.sundayClosed) return false;
+            const [fromH, fromM] = local.hours.from.split(':').map(Number);
+            const [toH, toM] = local.hours.to.split(':').map(Number);
+            const fromMinutes = fromH * 60 + fromM;
+            const toMinutes = toH * 60 + toM;
+            return currentTime >= fromMinutes && currentTime <= toMinutes;
+        }
+        function setTickers() {
+            const noticias = [
+                "¡NUEVOS LOCALES SE SUMAN CADA SEMANA!",
+                "OFERTAS EXCLUSIVAS EN CAMPANA",
+                "PUBLICITÁ TU LOCAL GRATIS POR WHATSAPP",
+                "MÁS DE 20 RUBROS DISPONIBLES",
+                "DESCUENTOS HASTA 50% OFF"
+            ];
+            let avisoHTML = '';
+            noticias.forEach(n => avisoHTML += `<span class="ticker-item">${n}</span>`);
+            document.getElementById('tick-aviso').innerHTML = avisoHTML.repeat(20);
+        
+            let hotHTML = '';
+            baseData.forEach(local => {
+                hotHTML += `<span class="ticker-item">${local.name.toUpperCase()} - ${local.discount}% OFF</span>`;
+            });
+            document.getElementById('tick-hot').innerHTML = hotHTML.repeat(15);
+            const deliveryNoticias = [
+                "¡DELIVERY POR CABIFY, UBER, PEDIDOS YA !",
+                "DELIVERY PARTICULAR",
+                "TRABAJOS ARTESANALES HECHOS CON AMOR EN CAMPANA",
+                "APOYÁ A LOS ARTESANOS LOCALES",
+                "DELIVERYS RÁPIDOS Y SEGUROS EN TODA LA ZONA",
+                "COMPRÁ LOCAL CON ENVÍO A DOMICILIO"
+            ];
+            let deliveryHTML = '';
+            deliveryNoticias.forEach(n => deliveryHTML += `<span class="ticker-item">${n}</span>`);
+            document.getElementById('tick-delivery').innerHTML = deliveryHTML.repeat(20);
+        }
         function sendWhatsappForm(e) {
             e.preventDefault();
             const n = document.getElementById('frm-nombre').value.trim();
             const r = document.getElementById('frm-rubro').value;
             const u = document.getElementById('frm-ubicacion').value.trim();
             const em = document.getElementById('frm-email').value.trim();
-            let text = `Hola! Quiero publicitar mi ${r}: ${n} ubicado en ${u}`;
-            if (em) text += ` - Email de contacto: ${em}`;
+            let text = `¡Hola! 👋🚀\n\nQuiero *publicitar mi local* en Mercado de Locales:\n\n`;
+            text += `🏪 *Nombre del local*: ${n}\n`;
+            text += `🗂️ *Rubro*: ${r}\n`;
+            text += `📍 *Dirección en Campana*: ${u}\n`;
+            if (em) text += `📧 *Email*: ${em}\n`;
+            text += `\n¡Gracias por ayudarme a llegar a más clientes! 🙌❤️`;
             window.open(`https://api.whatsapp.com/send?phone=+543489686939&text=${encodeURIComponent(text)}`, '_blank');
             closeFormModal();
         }
-        function openDeliveryModal() { document.getElementById('delivery-modal').classList.add('active'); }
-        function closeDeliveryModal() { document.getElementById('delivery-modal').classList.remove('active'); }
         function sendDeliveryWhatsappForm(e) {
             e.preventDefault();
             const nombre = document.getElementById('del-nombre').value.trim();
@@ -713,32 +846,52 @@
             const direccion = document.getElementById('del-direccion').value.trim();
             const dni = document.getElementById('del-dni').value.trim();
             const email = document.getElementById('del-email').value.trim();
-            let text = `Hola! Quiero registrarme como Delivery.\nNombre: ${nombre}\nVehículo: ${vehiculo}\nDirección: ${direccion}\nDNI: ${dni}`;
-            if (email) text += `\nEmail: ${email}`;
+            let text = `¡Hola! 👋🚚\n\nQuiero *registrarme como Delivery*:\n\n`;
+            text += `👤 *Nombre*: ${nombre}\n`;
+            text += `🚗 *Vehículo*: ${vehiculo}\n`;
+            text += `📍 *Dirección en Campana*: ${direccion}\n`;
+            text += `🆔 *DNI*: ${dni}\n`;
+            if (email) text += `📧 *Email*: ${email}\n`;
+            text += `\n¡Listo para empezar a repartir! 🙌❤️`;
             window.open(`https://api.whatsapp.com/send?phone=+543489686939&text=${encodeURIComponent(text)}`, '_blank');
             closeDeliveryModal();
         }
-        function openPrivacyModal() { document.getElementById('privacy-modal').classList.add('active'); }
-        function closePrivacyModal() { document.getElementById('privacy-modal').classList.remove('active'); }
-        function openShareModal() { document.getElementById('share-modal').classList.add('active'); }
-        function closeShareModal() { document.getElementById('share-modal').classList.remove('active'); }
-
-        // Reshuffle dinámico (cambio de tamaños y posiciones)
+        // Reshuffle automático cada 12 segundos
         setInterval(() => {
             if(viewMode === 'list' || activeFilters.cat || activeFilters.discount || activeFilters.search) return;
             generateMatrix();
             render();
         }, 12000);
-
         window.addEventListener('resize', () => {
             COLS = window.innerWidth > 800 ? DESKTOP_COLS : MOBILE_COLS;
             generateMatrix();
             render();
         });
+        function init() {
+            setTickers();
+            generateMatrix();
+            render();
+            if (localStorage.getItem(POPUP_SEEN_KEY) !== CURRENT_VERSION) {
+                openAnnouncement();
+            }
+            if (!localStorage.getItem('exitIntentShown')) {
+                let hasInteracted = false;
+                document.addEventListener('click', () => hasInteracted = true, { once: true });
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) hasInteracted = true;
+                });
+                document.addEventListener('mouseout', function(e) {
+                    if (hasInteracted && !e.relatedTarget && e.clientY < 10) {
+                        openExitIntent();
+                    }
+                });
+            }
+        }
         init();
     </script>
 </body>
 </html>
+
 
 
 
